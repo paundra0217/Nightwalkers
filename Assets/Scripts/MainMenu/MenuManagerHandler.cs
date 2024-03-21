@@ -1,9 +1,12 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 enum audioType
 {
@@ -19,13 +22,16 @@ public class audioManager
 public class MenuManagerHandler : MonoBehaviour
 {
     [SerializeField] public audioManager[] audioLibrary;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public AudioMixer audioMixer;
+    
+    public void SetBGMVolume(float Volume){
+        audioMixer.SetFloat("BGMVolume", Volume);
     }
 
-    // Update is called once per frame
+    public void SetVFXVolume(float Volume){
+        audioMixer.SetFloat("VFXVolume", Volume);
+    }
+
     void Update()
     {
         
@@ -35,4 +41,11 @@ public class MenuManagerHandler : MonoBehaviour
     {
 
     }
+    public void PlayGame(){
+        SceneManager.LoadSceneAsync(1);
+    }
+    public void ExitGame(){
+        Application.Quit();
+    }
 }
+
