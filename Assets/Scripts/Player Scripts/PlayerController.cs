@@ -1,8 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.UI;
 
+namespace RDCT
+{
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class PlayerController : MonoBehaviour, IPlayerController
+    public class PlayerController : MonoBehaviour
     {
         [SerializeField] private ScriptableStats _stats;
         private Rigidbody2D _rb;
@@ -10,6 +14,13 @@ using UnityEngine;
         private FrameInput _frameInput;
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
+        [SerializeField] private SpriteRenderer _sprite;
+        public Animator _animator;
+        bool _enableMove = true;
+        public bool _counterAttack = false;
+        private bool isJumping;
+
+        private float inputAxis;
 
         #region Interface
 
@@ -19,20 +30,66 @@ using UnityEngine;
 
         #endregion
 
+        private float _timeStamp;
         private float _time;
+        private float _counterTime;
+
+        private float _realCounterTime;
+        private float moveDelay;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
+            _animator = GetComponent<Animator>();
+
+            moveDelay = _timeStamp * 1.2f;
 
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         }
 
         private void Update()
         {
+            _timeStamp = Time.deltaTime;
             _time += Time.deltaTime;
+            _counterTime += Time.deltaTime;
+            spriteFlip();
             GatherInput();
+            if(_enableMove)
+            {
+                HandleJump();
+                ApplyMovement();
+                HandleDirection();
+            }
+            
+            instantInput();
+        }
+
+        private void instantInput()
+        {
+            bool counter = Input.GetKeyDown(KeyCode.P);
+            bool attack = Input.GetKey(KeyCode.O);
+
+            if (counter && _grounded && _frameVelocity.x == 0)
+            {
+                _counterAttack = _counterTime < _realCounterTime * .5f;
+                _realCounterTime = _counterTime;
+                _animator.SetBool("attack", true);
+                _enableMove = false;
+            }
+            else if (_timeStamp > moveDelay)
+            {
+                _enableMove = true;
+                _animator.SetBool("attack", false);
+                _counterAttack = false;
+                _realCounterTime = 0;
+            }
+
+            if (attack)
+            {
+                _animator.SetBool("isAttacking", attack);
+            }
+
         }
 
         private void GatherInput()
@@ -60,12 +117,7 @@ using UnityEngine;
         private void FixedUpdate()
         {
             CheckCollisions();
-
-            HandleJump();
-            HandleDirection();
             HandleGravity();
-
-            ApplyMovement();
         }
 
         #region Collisions
@@ -120,17 +172,27 @@ using UnityEngine;
 
         private void HandleJump()
         {
+
+
             if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.velocity.y > 0) _endedJumpEarly = true;
+
+            
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
-            if (_grounded || CanUseCoyote) ExecuteJump();
+            if (_grounded || CanUseCoyote)
+            {
+                ExecuteJump();
+                
+            }
+
 
             _jumpToConsume = false;
         }
 
         private void ExecuteJump()
         {
+            
             _endedJumpEarly = false;
             _timeJumpWasPressed = 0;
             _bufferedJumpUsable = false;
@@ -162,6 +224,7 @@ using UnityEngine;
 
         private void HandleGravity()
         {
+
             if (_grounded && _frameVelocity.y <= 0f)
             {
                 _frameVelocity.y = _stats.GroundingForce;
@@ -172,19 +235,36 @@ using UnityEngine;
                 if (_endedJumpEarly && _frameVelocity.y > 0) inAirGravity *= _stats.JumpEndEarlyGravityModifier;
                 _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
             }
+
+
         }
 
         #endregion
 
-        private void ApplyMovement() => _rb.velocity = _frameVelocity;
-
-#if UNITY_EDITOR
-        private void OnValidate()
+        #region Speed
+        private void spriteFlip()
         {
-            if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
+            if(_rb.velocity.x < 0) _sprite.flipX = true;
+            else if (_rb.velocity.x > 0) _sprite.flipX = false;
         }
-#endif
+
+        #endregion
+
+        private void ApplyMovement()
+        {
+            float animController = _rb.velocity.x;
+            if(animController < 0) animController = 1;
+
+            if (_rb.velocity.y > 0.001f) isJumping = true;
+            else if (_grounded) isJumping = false;
+
+            _animator.SetBool("isJumping", isJumping);
+            _animator.SetFloat("Speed", animController);
+            _rb.velocity = _frameVelocity;
+        }
     }
+
+
 
     public struct FrameInput
     {
@@ -196,7 +276,7 @@ using UnityEngine;
     public interface IPlayerController
     {
         public event Action<bool, float> GroundedChanged;
-
         public event Action Jumped;
         public Vector2 FrameInput { get; }
     }
+}
