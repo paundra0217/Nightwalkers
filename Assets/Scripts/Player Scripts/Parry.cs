@@ -16,7 +16,7 @@ public class Parrys : MonoBehaviour
     private void Update()
     {
        
-
+        
         
     }
 }
