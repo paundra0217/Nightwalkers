@@ -18,7 +18,8 @@ namespace RDCT
         public Animator _animator;
         bool _enableMove = true;
         public bool _counterAttack = false;
-        private bool isJumping;
+        private bool isJumping, isFalling;
+        
 
         private float inputAxis;
 
@@ -90,6 +91,14 @@ namespace RDCT
                 _animator.SetBool("isAttacking", attack);
             }
 
+            if (_frameInput.JumpDown)
+            {
+                isJumping = true;
+                _animator.SetBool("isJumping", isJumping);
+            } else isJumping = false;
+            _animator.SetBool("isJumping", isJumping);
+
+
         }
 
         private void GatherInput()
@@ -109,6 +118,7 @@ namespace RDCT
 
             if (_frameInput.JumpDown)
             {
+                isJumping = true;
                 _jumpToConsume = true;
                 _timeJumpWasPressed = _time;
             }
@@ -118,6 +128,8 @@ namespace RDCT
         {
             CheckCollisions();
             HandleGravity();
+
+            
         }
 
         #region Collisions
@@ -139,7 +151,9 @@ namespace RDCT
             // Landed on the Ground
             if (!_grounded && groundHit)
             {
+                isJumping = false;
                 _grounded = true;
+                _animator.SetBool("isLand", true);
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
@@ -148,10 +162,15 @@ namespace RDCT
             // Left the Ground
             else if (_grounded && !groundHit)
             {
+                
                 _grounded = false;
                 _frameLeftGrounded = _time;
+                _animator.SetBool("isLand", false);
+                _animator.SetBool("isFalling", isFalling);
                 GroundedChanged?.Invoke(false, 0);
             }
+
+            if(_rb.velocity.y > 0) isFalling = true;    else isFalling = false;
 
             Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
         }
@@ -172,11 +191,9 @@ namespace RDCT
 
         private void HandleJump()
         {
-
+            isJumping = false;
 
             if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.velocity.y > 0) _endedJumpEarly = true;
-
-            
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
@@ -253,12 +270,10 @@ namespace RDCT
         private void ApplyMovement()
         {
             float animController = _rb.velocity.x;
-            if(animController < 0) animController = 1;
+            if(animController < 0) animController = 1;           
+            
+            
 
-            if (_rb.velocity.y > 0.001f) isJumping = true;
-            else if (_grounded) isJumping = false;
-
-            _animator.SetBool("isJumping", isJumping);
             _animator.SetFloat("Speed", animController);
             _rb.velocity = _frameVelocity;
         }
