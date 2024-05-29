@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-enum EAIStates
+public enum EAIStates
 {
     Neutral,
     Attack,
@@ -24,16 +24,20 @@ public class BaseBehavior : MonoBehaviour
 
     #region Action Score
 
-    private static int BEHAVIOR_HIGH_ATTACK;
-    private static int BEHAVIOR_ATTACK;
-    private static int BEHAVIOR_CHASE;
-    private static int BEHAVIOR_PATROL;
+    private static int BEHAVIOR_STUNNED = 15;
+    private static int BEHAVIOR_HIGH_ATTACK = 10;
+    private static int BEHAVIOR_ATTACK = 8;
+    private static int BEHAVIOR_CHASE = 5;
+    private static int BEHAVIOR_PATROL = 3;
+    private static int BEHAVIOR_IDLE = 1;
 
     #endregion
 
-    #region
+    #region Action Var
 
-    private int ScoreAction;
+    private int ScoreAction, ScoreAction1, ScoreAction2, ScoreAction3, ScoreAction4, ScoreAction5, ScoreAction6;
+    private bool bIsInteruptable = true;
+    private bool bIsAttackable;
 
     #endregion
 
@@ -52,13 +56,51 @@ public class BaseBehavior : MonoBehaviour
         m_AIInfo.getHitPointLeft();
     }
 
-    private void ScoreCounting()
+    private void ScoreProcessing(int NextAction)
     {
-        
+        if (!bIsInteruptable)
+            return;
+
+        if (ScoreAction < NextAction)
+        {
+            
+        }
     }
 
     private int GetBehaviorScore()
     {
         return ScoreAction;
     }
+
+    private void NormalBehavior()
+    {
+        ScoreAction1 = BEHAVIOR_IDLE;
+        ScoreAction = ScoreAction1;
+        bIsInteruptable = true;
+    }
+
+    private void AttackBehavior()
+    {
+        ScoreAction2 = BEHAVIOR_ATTACK;
+        ScoreAction = ScoreAction2;
+        bIsInteruptable = false;
+    }
+
+    private void ChaseBehavior() 
+    {
+        ScoreAction3 = BEHAVIOR_CHASE;
+        ScoreAction = ScoreAction3;
+        bIsInteruptable = false;
+
+        if (bIsAttackable)
+            bIsInteruptable = true;
+    }
+
+    private void StunBehavior()
+    {
+        ScoreAction4 = BEHAVIOR_STUNNED;
+        ScoreAction = ScoreAction4;
+        bIsInteruptable = false;
+    }
+
 }

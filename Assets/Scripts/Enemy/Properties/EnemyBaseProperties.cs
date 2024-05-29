@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using UnityEditor.Animations;
 using UnityEngine;
 
 
@@ -12,17 +10,11 @@ public class EnemyBaseProperties : ScriptableObject
 
     [Header("Attribute Stats")]
     [Tooltip("HP of the enemy")] public  float _fHitpoints;
-    [Tooltip("Damage of the enemy")] public  float _fDamage;
     [Tooltip("Move Speed of the enemy")] public  float _fMoveSpeed;
-    [Tooltip("Attack Speed of the enemy")] public  float _fAttSpeed;
     [Tooltip("Stunned Duration")] public  float _fStunnedDuration;
-    [Tooltip("Attack Range Melle")] public float _fAttackRangeM;
-    [Tooltip("Attack Range Ranged")] public float _fAttackRangeR;
-
-    [Header("Attack")]
-    [Tooltip("Attack Anim")] public AnimatorController[] _aAttackHandler;
+    [Tooltip("Knockback Resistant of the Enemy")] public float _fKnockbackRes;
 
     [Header("Perception Factor")]
     [Tooltip("Default enemy Factor")] public float _fperceptionBase;
-
+    
 }

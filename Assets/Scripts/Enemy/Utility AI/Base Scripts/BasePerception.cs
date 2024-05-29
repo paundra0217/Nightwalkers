@@ -23,8 +23,10 @@ public class BasePerception : MonoBehaviour
     void Update()
     {
         if (m_BaseProp == null) return; 
+        if (m_Player = null) findPlayer();
 
-        findPlayer();
+
+
     }
 
     public GameObject findPlayer()
