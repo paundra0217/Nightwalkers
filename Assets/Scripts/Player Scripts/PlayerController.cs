@@ -261,8 +261,8 @@ namespace RDCT
         #region Speed
         private void spriteFlip()
         {
-            if(_rb.velocity.x < 0) _sprite.flipX = true;
-            else if (_rb.velocity.x > 0) _sprite.flipX = false;
+            if(Input.GetAxisRaw("Horizontal") < 0) _sprite.flipX = true;
+            else if (Input.GetAxisRaw("Horizontal") > 0) _sprite.flipX = false;
         }
 
         #endregion
