@@ -11,7 +11,7 @@ public class AIInfo : MonoBehaviour
     private float MaxHitPoint, HitPoint;
     private float Damage;
     private int AttackSeq;
-
+    public GameObject ParentObject;
     private bool bAttack;
 
     // Start is called before the first frame update
@@ -33,6 +33,11 @@ public class AIInfo : MonoBehaviour
     public float TakeDamage(float damage)
     {
         HitPoint -= damage;
+
+        if (HitPoint <= 0)
+        {
+            Destroy(ParentObject);
+        }
 
         return damage;
     }
