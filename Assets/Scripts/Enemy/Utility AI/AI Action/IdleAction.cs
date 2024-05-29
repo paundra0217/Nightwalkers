@@ -1,27 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AI/AI Idle Action")]
 public class IdleAction : ActionBehavior
 {
-    private void OnSelected()
+    
+
+    public override void OnSelected()
     {
         ScoreAction = BEHAVIOR_IDLE;
         bIsInteruptable = true;
         bIsAttackable = false;
+        bIsSelected = true;
     }
 
-
-    void Start()
+    public override void simulate()
     {
-        OnSelected();
-    }
+        baseBehavior = baseBehavior.GetComponent<BaseBehavior>();
 
-    // Update is called once per frame
-    void Update()
-    {
+        var wp = baseBehavior.getPatrolWaypoint();
+
         
     }
+
 }

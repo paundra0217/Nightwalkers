@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 
 public enum EAIStates
@@ -34,6 +29,7 @@ public class BaseBehavior : MonoBehaviour
 
 
     public List<ActionBehavior> m_behaviors;
+    public Waypoint m_WayPoint;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
 
@@ -44,6 +40,7 @@ public class BaseBehavior : MonoBehaviour
         m_BasePerception = GetComponent<BasePerception>();
         m_BaseProperties = GetComponent<EnemyBaseProperties>();
         m_AIInfo = GetComponent<AIInfo>();
+        m_WayPoint = GetComponent<Waypoint>();
     }
 
 
@@ -63,24 +60,38 @@ public class BaseBehavior : MonoBehaviour
         
         if (GetBehaviorScoreNow() < iActionScore)
         {
-            addAction(nextActions);
+            //addAction(nextActions);
             for (int i = m_behaviors.Count; i == 0; i--)
             {
-                var score = m_behaviors[i].getScore();
-                var nextScore = m_behaviors[i-1].getScore();
-
-                if (score > nextScore)
+                for (int j = i-1; j <= i; j--)
                 {
-                    var now = m_behaviors[i];
-                    var next = m_behaviors[i-1];
+                    var score = m_behaviors[i].getScore();
+                    var nextScore = m_behaviors[j].getScore();
 
-                   // m_behaviors.TrySwap<ActionBehavior>(i, i--);
+                    if (score > nextScore)
+                    {
+                        var now = m_behaviors[i];
+                        var next = m_behaviors[j];
+
+                        if (j < 0) return;
+
+                        swap<ActionBehavior>(m_behaviors, i, j);
+                    }
                 }
-
             }
-
-            m_behaviors.RemoveAt(0);
+            //m_behaviors.RemoveAt(0);
         }
+    }
+
+    private void onSimulation()
+    {
+        //nowAction.GetComponent<ActionBehavior>();
+        if (m_behaviors[0] == null) return;
+
+        nowAction = m_behaviors[0].GetComponent<ActionBehavior>();
+
+        if (nowAction.bIsSelected == true)
+            nowAction.OnSelected();
     }
 
     private int GetBehaviorScoreNow()
@@ -90,30 +101,47 @@ public class BaseBehavior : MonoBehaviour
         return _currActionScore;
     }
 
-    private void addAction(ActionBehavior actions)
+    public void addAction(ActionBehavior actions)
     {
-        nextAction = actions;
         m_behaviors.Add(actions);
+        ScoreProcessing(actions);
+    }
+
+    public Waypoint getPatrolWaypoint()
+    {
+        Waypoint waypoint = m_WayPoint;
+
+        return waypoint;
+    }
+
+    public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
+    {
+        T tmp = list[indexA];
+        list[indexA] = list[indexB];
+        list[indexB] = tmp;
+        return list;
     }
 }
 
 
 public class ActionBehavior : ScriptableObject
 {
-    #region Action Score
+    #region Action Score Value
 
-    public static int BEHAVIOR_STUNNED = 15;
-    public static int BEHAVIOR_HIGH_ATTACK = 10;
-    public static int BEHAVIOR_ATTACK = 8;
-    public static int BEHAVIOR_CHASE = 5;
-    public static int BEHAVIOR_PATROL = 3;
-    public static int BEHAVIOR_IDLE = 1;
+    [HideInInspector] public static int BEHAVIOR_STUNNED = 15;
+    [HideInInspector] public static int BEHAVIOR_HIGH_ATTACK = 10;
+    [HideInInspector] public static int BEHAVIOR_ATTACK = 8;
+    [HideInInspector] public static int BEHAVIOR_CHASE = 5;
+    [HideInInspector] public static int BEHAVIOR_PATROL = 3;
+    [HideInInspector] public static int BEHAVIOR_IDLE = 1;
 
     #endregion
 
     [HideInInspector] public int ScoreAction;
     public bool bIsInteruptable = true;
-    public bool bIsAttackable;
+    [HideInInspector] public bool bIsAttackable;
+    [HideInInspector] public bool bIsSelected = false;
+    public BaseBehavior baseBehavior;
 
     public int getScore()
     {
@@ -124,4 +152,11 @@ public class ActionBehavior : ScriptableObject
     {
         return bIsInteruptable;
     }
+
+    public virtual void OnSelected()
+    {
+        bIsSelected = false;
+    }
+
+    public virtual void simulate() { }
 }

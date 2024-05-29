@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class AIInfo : MonoBehaviour
 {
-    public static EnemyBaseProperties m_BaseProperties;
+    public EnemyBaseProperties m_BaseProperties;
+    public static BaseBehavior m_BaseBehavior;
     public AIAttackHandlers[] m_AttackHandler;
-    [SerializeField] public EAIStates m_State;
+    public EAIStates m_State;
 
     private float MaxHitPoint, HitPoint;
     private float Damage;
@@ -38,6 +39,10 @@ public class AIInfo : MonoBehaviour
         {
             Destroy(ParentObject);
         }
+
+        //var idles = new IdleAction();
+
+        //m_BaseBehavior.addAction(idles);
 
         return damage;
     }
