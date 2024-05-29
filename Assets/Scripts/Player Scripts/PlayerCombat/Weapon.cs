@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float Damage;
+    Collider2D triggerBox;
+
+    private void Start()
     {
-        
+        triggerBox = GetComponent<Collider2D>();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<AIInfo>())
+        {
+            AIInfo aIInfo = collision.GetComponent<AIInfo>();
+            aIInfo.TakeDamage(Damage);
+
+
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TriggerON()
     {
-        
+        triggerBox.enabled = true;
     }
+
+    public void TriggerOff()
+    {
+        triggerBox.enabled = false;
+    }
+
+
+
 }

@@ -144,13 +144,22 @@ namespace RDCT
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            
 
+            //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
+            //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);
             // Hit a Ceiling
-            if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
+            if (ceilingHit)
+            {
+                _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
+                Debug.Log("Tembok atas");
+            }
+
 
             // Landed on the Ground
             if (!_grounded && groundHit)
             {
+                Debug.Log("tanah");
                 isJumping = false;
                 _grounded = true;
                 _animator.SetBool("isLand", true);
@@ -261,8 +270,8 @@ namespace RDCT
         #region Speed
         private void spriteFlip()
         {
-            if(Input.GetAxisRaw("Horizontal") < 0) _sprite.flipX = true;
-            else if (Input.GetAxisRaw("Horizontal") > 0) _sprite.flipX = false;
+            if (Input.GetAxisRaw("Horizontal") < 0) transform.localEulerAngles = new Vector3(0, 180, 0);
+            else if (Input.GetAxisRaw("Horizontal") > 0) transform.localEulerAngles = new Vector3(0, 0, 0);
         }
 
         #endregion
