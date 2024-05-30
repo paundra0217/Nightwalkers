@@ -38,11 +38,14 @@ namespace RDCT
         private float _realCounterTime;
         private float moveDelay;
 
+
+        private PlayerCombat playerCombat;
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _animator = GetComponent<Animator>();
+            playerCombat = GetComponent<PlayerCombat>();
 
             moveDelay = _timeStamp * 1.2f;
 
@@ -54,6 +57,11 @@ namespace RDCT
             _timeStamp = Time.deltaTime;
             _time += Time.deltaTime;
             _counterTime += Time.deltaTime;
+
+            if (playerCombat.IsDashing)
+            {
+                return;
+            }
             spriteFlip();
             GatherInput();
             if(_enableMove)
