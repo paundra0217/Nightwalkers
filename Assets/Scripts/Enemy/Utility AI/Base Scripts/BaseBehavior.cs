@@ -32,7 +32,7 @@ public class BaseBehavior : MonoBehaviour
     public Waypoint m_WayPoint;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
-    // public ActionBehavior previousAction;
+    public ActionBehavior previousAction;
 
     #endregion
 
@@ -89,9 +89,11 @@ public class BaseBehavior : MonoBehaviour
                     }
                 }
             }
+        }
 
-            
-            //m_behaviors.RemoveAt(0);
+        if (m_behaviors.Count == 10)
+        {
+            int iRange = m_behaviors.Count;
         }
     }
 
@@ -108,7 +110,12 @@ public class BaseBehavior : MonoBehaviour
             nowAction.OnSelected();
             nowAction.simulate();
         }
-            
+    }
+
+    public void CompleteAction()
+    {
+        previousAction = nowAction;
+        m_behaviors.RemoveAt(0);
     }
 
     private int GetBehaviorScoreNow()
@@ -146,6 +153,8 @@ public class BaseBehavior : MonoBehaviour
         list[indexB] = tmp;
         return list;
     }
+
+
 }
 
 
@@ -185,4 +194,10 @@ public class ActionBehavior : ScriptableObject
     }
 
     public virtual void simulate() { }
+
+    public virtual void OnStopSimulate()
+    {
+        bIsInteruptable = false;
+        baseBehavior.m_behaviors.Remove(this);
+    }
 }
