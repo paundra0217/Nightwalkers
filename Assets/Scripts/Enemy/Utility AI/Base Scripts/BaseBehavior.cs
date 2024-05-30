@@ -32,6 +32,7 @@ public class BaseBehavior : MonoBehaviour
     public Waypoint m_WayPoint;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
+    // public ActionBehavior previousAction;
 
     #endregion
 
@@ -48,6 +49,8 @@ public class BaseBehavior : MonoBehaviour
     {
         if (m_BaseProperties == null) { return ; }
         _currHP = m_AIInfo.getHitPointLeft();
+
+        onSimulation();
     }
 
     private void ScoreProcessing(ActionBehavior nextActions)
@@ -60,6 +63,13 @@ public class BaseBehavior : MonoBehaviour
         
         if (GetBehaviorScoreNow() < iActionScore)
         {
+            if (m_behaviors[1] != null)
+            {
+                if (m_behaviors[0] = m_behaviors[1])
+                    m_behaviors.Remove(m_behaviors[1]);
+            }
+            
+
             //addAction(nextActions);
             for (int i = m_behaviors.Count; i == 0; i--)
             {
@@ -79,9 +89,12 @@ public class BaseBehavior : MonoBehaviour
                     }
                 }
             }
+
+            
             //m_behaviors.RemoveAt(0);
         }
     }
+
 
     private void onSimulation()
     {
@@ -91,7 +104,11 @@ public class BaseBehavior : MonoBehaviour
         nowAction = m_behaviors[0].GetComponent<ActionBehavior>();
 
         if (nowAction.bIsSelected == true)
+        {
             nowAction.OnSelected();
+            nowAction.simulate();
+        }
+            
     }
 
     private int GetBehaviorScoreNow()
@@ -112,6 +129,14 @@ public class BaseBehavior : MonoBehaviour
         Waypoint waypoint = m_WayPoint;
 
         return waypoint;
+    }
+
+    public void Patrol()
+    {
+        getPatrolWaypoint();
+
+        if (m_WayPoint.waypointAvail() == false)
+            return;
     }
 
     public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
@@ -155,6 +180,7 @@ public class ActionBehavior : ScriptableObject
 
     public virtual void OnSelected()
     {
+        baseBehavior.GetComponent<BaseBehavior>();
         bIsSelected = false;
     }
 

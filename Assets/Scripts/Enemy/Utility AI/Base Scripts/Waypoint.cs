@@ -10,4 +10,14 @@ public class Waypoint : MonoBehaviour
     {
         _wp.AddRange(transform.GetComponentsInChildren<Transform>());
     }
+
+    public bool waypointAvail()
+    {
+        if (_wp.Count >= 0) 
+            return true;
+        else if (_wp[0] = null) 
+            return false;
+
+        return false;
+    }
 }

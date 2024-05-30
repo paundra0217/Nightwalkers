@@ -1,11 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/AI Idle Action")]
+[CreateAssetMenu(menuName = "AI/AI Action/AI Idle Action")]
 public class IdleAction : ActionBehavior
 {
-    
-
     public override void OnSelected()
     {
         ScoreAction = BEHAVIOR_IDLE;
@@ -16,8 +14,6 @@ public class IdleAction : ActionBehavior
 
     public override void simulate()
     {
-        baseBehavior = baseBehavior.GetComponent<BaseBehavior>();
-
         var wp = baseBehavior.getPatrolWaypoint();
 
         
