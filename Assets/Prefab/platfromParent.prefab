@@ -50,7 +50,7 @@ MonoBehaviour:
   platform: {fileID: 7110139053395403639}
   startPoint: {fileID: 1617593082766228062}
   endPoint: {fileID: 3226990807568623303}
-  speed: 0.4
+  speed: 2
 --- !u!1 &3761969402052499736
 GameObject:
   m_ObjectHideFlags: 0
