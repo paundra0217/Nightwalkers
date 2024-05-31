@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e1b32c04e46e00e428987f588df25da6
+guid: f3a819b8303be2f498653e6356f668ec
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -97,190 +97,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_0
+      name: 192x80_Luna_new_attack_2_sprite_sheet_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 6
-        width: 114
-        height: 74
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8686d5e640b1edb488ea7efb569a1163
-      internalID: -286820831
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_1
-      rect:
-        serializedVersion: 2
-        x: 158
-        y: 6
-        width: 114
-        height: 74
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9a1c9f9f4392ea7479f08ff2466068c7
-      internalID: 1246462998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_2
-      rect:
-        serializedVersion: 2
-        x: 297
-        y: 6
-        width: 114
-        height: 74
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 471a5192a26efaa4092674980a13a71f
-      internalID: -111299058
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_3
-      rect:
-        serializedVersion: 2
-        x: 453
-        y: 6
-        width: 114
-        height: 74
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 92700fd3fd48f1b46a9dd4d808cc66df
-      internalID: -506952556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_4
-      rect:
-        serializedVersion: 2
-        x: 589
-        y: 6
-        width: 114
-        height: 74
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 53979ed214d1b4841a76e651eea271d2
-      internalID: -135477069
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_5
-      rect:
-        serializedVersion: 2
-        x: 700
+        x: 0
         y: 0
-        width: 11
-        height: 15
+        width: 192
+        height: 80
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fea8d83dddfcc5499694296b78479cb
-      internalID: -213332029
+      spriteID: 5d82a49932b03de4ab1b484b457951a1
+      internalID: -622627100
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_6
+      name: 192x80_Luna_new_attack_2_sprite_sheet_1
       rect:
         serializedVersion: 2
-        x: 726
-        y: 6
-        width: 114
-        height: 74
+        x: 192
+        y: 0
+        width: 192
+        height: 80
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e729b3459cb454a439f3da70392a96c3
-      internalID: 1873161379
+      spriteID: ee659d30f6f19424bbab42075e5bee37
+      internalID: 1186225763
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_7
+      name: 192x80_Luna_new_attack_2_sprite_sheet_2
       rect:
         serializedVersion: 2
-        x: 866
-        y: 6
-        width: 114
-        height: 74
+        x: 384
+        y: 0
+        width: 192
+        height: 80
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ffe94bcf91300b42802ed25de880e6e
-      internalID: 116562676
+      spriteID: 216d52c8e777da14a807463f3c51a1d1
+      internalID: -1052372619
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna_new_attack_3_sprite_sheet_8
+      name: 192x80_Luna_new_attack_2_sprite_sheet_3
       rect:
         serializedVersion: 2
-        x: 1001
-        y: 6
-        width: 114
-        height: 74
+        x: 576
+        y: 0
+        width: 192
+        height: 80
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3bcfb489d7d53134bab93dff97a6e5f9
-      internalID: -1644621748
+      spriteID: e34fc3f8ccd48b243b8ae176fb20c5bf
+      internalID: 411437602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 192x80_Luna_new_attack_2_sprite_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 192
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73bc8fe1a78c4e94c9398a0da04a66bc
+      internalID: -859767193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 192x80_Luna_new_attack_2_sprite_sheet_5
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 192
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2058bdb186991e42865a8cc26ba55e2
+      internalID: 1811551075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 192x80_Luna_new_attack_2_sprite_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 192
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c31045327e13d9408aecc78ffdec695
+      internalID: 778553320
       vertices: []
       indices: 
       edges: []
@@ -296,15 +254,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Luna_new_attack_3_sprite_sheet_0: -286820831
-      Luna_new_attack_3_sprite_sheet_1: 1246462998
-      Luna_new_attack_3_sprite_sheet_2: -111299058
-      Luna_new_attack_3_sprite_sheet_3: -506952556
-      Luna_new_attack_3_sprite_sheet_4: -135477069
-      Luna_new_attack_3_sprite_sheet_5: -213332029
-      Luna_new_attack_3_sprite_sheet_6: 1873161379
-      Luna_new_attack_3_sprite_sheet_7: 116562676
-      Luna_new_attack_3_sprite_sheet_8: -1644621748
+      192x80_Luna_new_attack_2_sprite_sheet_0: -622627100
+      192x80_Luna_new_attack_2_sprite_sheet_1: 1186225763
+      192x80_Luna_new_attack_2_sprite_sheet_2: -1052372619
+      192x80_Luna_new_attack_2_sprite_sheet_3: 411437602
+      192x80_Luna_new_attack_2_sprite_sheet_4: -859767193
+      192x80_Luna_new_attack_2_sprite_sheet_5: 1811551075
+      192x80_Luna_new_attack_2_sprite_sheet_6: 778553320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -156,6 +156,7 @@ namespace RDCT
 
             //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
             //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);
+
             // Hit a Ceiling
             if (ceilingHit)
             {
@@ -167,10 +168,11 @@ namespace RDCT
             // Landed on the Ground
             if (!_grounded && groundHit)
             {
-                Debug.Log("tanah");
+                
                 isJumping = false;
                 _grounded = true;
                 _animator.SetBool("isLand", true);
+                _animator.SetBool("isFalling", isFalling);
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
@@ -179,7 +181,7 @@ namespace RDCT
             // Left the Ground
             else if (_grounded && !groundHit)
             {
-                
+                Debug.Log(_rb.velocity.y);
                 _grounded = false;
                 _frameLeftGrounded = _time;
                 _animator.SetBool("isLand", false);
