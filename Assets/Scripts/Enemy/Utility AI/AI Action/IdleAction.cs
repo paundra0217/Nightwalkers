@@ -17,11 +17,4 @@ public class IdleAction : ActionBehavior
 
         baseBehavior.Patrol();
     }
-
-    public override void OnStopSimulate()
-    {
-        base.OnStopSimulate();
-
-        baseBehavior.CompleteAction();
-    }
 }

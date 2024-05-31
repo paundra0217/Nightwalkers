@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,7 +18,6 @@ public class BaseBehavior : MonoBehaviour
 {
     #region Module
 
-    public static EnemyBaseProperties     m_BaseProperties;
     public static BasePerception          m_BasePerception;
     public static AIInfo                  m_AIInfo;
 
@@ -27,33 +28,43 @@ public class BaseBehavior : MonoBehaviour
     private int _currActionScore;
     private float _currHP;
 
+    public List<Transform> patrolPoint;
 
-    public List<ActionBehavior> m_behaviors;
-    public Waypoint m_WayPoint;
+    [CanBeNull] public List<ActionBehavior> m_behaviors;
+    [CanBeNull] public Waypoint m_WayPoint;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
     public ActionBehavior previousAction;
+
+    public ActionBehavior defaultBehavior;
+
+    [CanBeNull] public GameObject playerRef;
+    [NotNull] public GameObject chaseEndPatrolPrefab;
 
     #endregion
 
     private void Start()
     {
         m_BasePerception = GetComponent<BasePerception>();
-        m_BaseProperties = GetComponent<EnemyBaseProperties>();
         m_AIInfo = GetComponent<AIInfo>();
         m_WayPoint = GetComponent<Waypoint>();
+        playerRef = m_BasePerception.findPlayer();
+
+        _currHP = m_AIInfo.getHitPointLeft();
     }
 
 
     private void Update()
     {
-        if (m_BaseProperties == null) { return ; }
-        _currHP = m_AIInfo.getHitPointLeft();
+        if (m_behaviors.IsUnityNull())
+        {
+            m_behaviors.Add(defaultBehavior);
+        }
 
         onSimulation();
     }
 
-    private void ScoreProcessing(ActionBehavior nextActions)
+    private void ScoreProcessing()
     {
         var bIsInteruptable = nowAction.getIntruption();
         var iActionScore = nowAction.getScore();
@@ -63,30 +74,22 @@ public class BaseBehavior : MonoBehaviour
         
         if (GetBehaviorScoreNow() < iActionScore)
         {
-            if (m_behaviors[1] != null)
+            if (m_behaviors[2] != null)
             {
-                if (m_behaviors[0] = m_behaviors[1])
-                    m_behaviors.Remove(m_behaviors[1]);
+                if (m_behaviors[1] = m_behaviors[2])
+                    m_behaviors.Remove(m_behaviors[2]);
             }
-            
 
-            //addAction(nextActions);
             for (int i = m_behaviors.Count; i == 0; i--)
             {
-                for (int j = i-1; j <= i; j--)
+                for (int j = i - 1; j == 1; j--)
                 {
                     var score = m_behaviors[i].getScore();
                     var nextScore = m_behaviors[j].getScore();
 
                     if (score > nextScore)
-                    {
-                        var now = m_behaviors[i];
-                        var next = m_behaviors[j];
-
-                        if (j < 0) return;
-
                         swap<ActionBehavior>(m_behaviors, i, j);
-                    }
+                    else return;
                 }
             }
         }
@@ -101,14 +104,17 @@ public class BaseBehavior : MonoBehaviour
     private void onSimulation()
     {
         //nowAction.GetComponent<ActionBehavior>();
-        if (m_behaviors[0] == null) return;
+        if (m_behaviors.Count == 0) return;
 
-        nowAction = m_behaviors[0].GetComponent<ActionBehavior>();
+        nowAction = m_behaviors[1].GetComponent<ActionBehavior>();
 
         if (nowAction.bIsSelected == true)
         {
             nowAction.OnSelected();
             nowAction.simulate();
+        } else if (nowAction.bIsSelected == false)
+        {
+            ScoreProcessing();
         }
     }
 
@@ -116,6 +122,7 @@ public class BaseBehavior : MonoBehaviour
     {
         previousAction = nowAction;
         m_behaviors.RemoveAt(0);
+        ScoreProcessing();
     }
 
     private int GetBehaviorScoreNow()
@@ -128,7 +135,7 @@ public class BaseBehavior : MonoBehaviour
     public void addAction(ActionBehavior actions)
     {
         m_behaviors.Add(actions);
-        ScoreProcessing(actions);
+        ScoreProcessing();
     }
 
     public Waypoint getPatrolWaypoint()
@@ -144,6 +151,27 @@ public class BaseBehavior : MonoBehaviour
 
         if (m_WayPoint.waypointAvail() == false)
             return;
+
+        for (int i = 0; i > m_WayPoint.wayPointCount(); i++)
+        {
+            patrolPoint.Add(m_WayPoint.getPatrolPos(i));
+        }
+
+
+    }
+
+    public void houndPatrol()
+    {
+        
+    }
+
+    public void chase()
+    {
+        Destroy(m_WayPoint.gameObject);
+        m_WayPoint = null;
+
+        transform.position = Vector2.MoveTowards(transform.position, m_BasePerception.m_Player.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
+        
     }
 
     public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
@@ -153,8 +181,6 @@ public class BaseBehavior : MonoBehaviour
         list[indexB] = tmp;
         return list;
     }
-
-
 }
 
 
@@ -175,7 +201,7 @@ public class ActionBehavior : ScriptableObject
     public bool bIsInteruptable = true;
     [HideInInspector] public bool bIsAttackable;
     [HideInInspector] public bool bIsSelected = false;
-    public BaseBehavior baseBehavior;
+    [HideInInspector] public BaseBehavior baseBehavior;
 
     public int getScore()
     {
@@ -190,14 +216,28 @@ public class ActionBehavior : ScriptableObject
     public virtual void OnSelected()
     {
         baseBehavior.GetComponent<BaseBehavior>();
-        bIsSelected = false;
+        bIsSelected = true;
+        simulate();
     }
 
     public virtual void simulate() { }
 
     public virtual void OnStopSimulate()
     {
-        bIsInteruptable = false;
+        if (bIsInteruptable == false)
+        {
+            return;
+        } else if (bIsInteruptable == true)
+        {
+            bIsSelected = false;
+        }
+    }
+
+    public virtual void onComplete()
+    {
+        Debug.Log("Simulation Complete");
+        OnStopSimulate();
         baseBehavior.m_behaviors.Remove(this);
+        baseBehavior.CompleteAction();
     }
 }
