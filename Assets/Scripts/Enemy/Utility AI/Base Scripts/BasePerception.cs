@@ -50,5 +50,4 @@ public class BasePerception : MonoBehaviour
         Vector2 dir = transform.TransformDirection(m_Player.transform.position - transform.position);
         Gizmos.DrawRay(transform.position, dir);
     }
-
 }

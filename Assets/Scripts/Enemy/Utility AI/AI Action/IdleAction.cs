@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AI/AI Action/AI Idle Action")]
@@ -14,7 +15,7 @@ public class IdleAction : ActionBehavior
     public override void simulate()
     {
         var wp = baseBehavior.getPatrolWaypoint();
-
+        baseBehavior.addAction(this);
         baseBehavior.Patrol();
     }
 }

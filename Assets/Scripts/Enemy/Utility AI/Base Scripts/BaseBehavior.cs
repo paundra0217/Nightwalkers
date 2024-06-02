@@ -27,17 +27,25 @@ public class BaseBehavior : MonoBehaviour
 
     private int _currActionScore;
     private float _currHP;
+    public int actionQ;
 
     public List<Transform> patrolPoint;
 
+    [Header("Dont Change")]
     [CanBeNull] public List<ActionBehavior> m_behaviors;
     [CanBeNull] public Waypoint m_WayPoint;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
     public ActionBehavior previousAction;
 
+    [Header("Behavior Handler")]
     public ActionBehavior defaultBehavior;
 
+    public ActionBehavior idleBehavior;
+    public ActionBehavior chaseBehavior;
+
+
+    [Header("Refrences")]
     [CanBeNull] public GameObject playerRef;
     [NotNull] public GameObject chaseEndPatrolPrefab;
 
@@ -49,18 +57,35 @@ public class BaseBehavior : MonoBehaviour
         m_AIInfo = GetComponent<AIInfo>();
         m_WayPoint = GetComponent<Waypoint>();
         playerRef = m_BasePerception.findPlayer();
-
+        actionQ = m_behaviors.Count;
         _currHP = m_AIInfo.getHitPointLeft();
     }
 
 
     private void Update()
     {
-        if (m_behaviors.IsUnityNull())
+        
+
+        if (m_behaviors.Count == 0)
         {
             m_behaviors.Add(defaultBehavior);
+            actionQ = m_behaviors.Count;
         }
 
+        if (m_BasePerception.bLineOfSight)
+        {
+            if (m_behaviors.Contains(chaseBehavior))
+                return;
+
+            addAction(chaseBehavior);
+            CompleteAction();
+        }
+            
+        if (!m_BasePerception.bLineOfSight)
+        {
+            CompleteAction();
+        }
+        
         onSimulation();
     }
 
@@ -74,10 +99,10 @@ public class BaseBehavior : MonoBehaviour
         
         if (GetBehaviorScoreNow() < iActionScore)
         {
-            if (m_behaviors[2] != null)
+            if (m_behaviors[1] != null)
             {
-                if (m_behaviors[1] = m_behaviors[2])
-                    m_behaviors.Remove(m_behaviors[2]);
+                if (m_behaviors[0] = m_behaviors[1])
+                    m_behaviors.Remove(m_behaviors[1]);
             }
 
             for (int i = m_behaviors.Count; i == 0; i--)
@@ -88,7 +113,7 @@ public class BaseBehavior : MonoBehaviour
                     var nextScore = m_behaviors[j].getScore();
 
                     if (score > nextScore)
-                        swap<ActionBehavior>(m_behaviors, i, j);
+                        swap<ActionBehavior>(m_behaviors, j, i);
                     else return;
                 }
             }
@@ -106,7 +131,12 @@ public class BaseBehavior : MonoBehaviour
         //nowAction.GetComponent<ActionBehavior>();
         if (m_behaviors.Count == 0) return;
 
-        nowAction = m_behaviors[1].GetComponent<ActionBehavior>();
+        nowAction = m_behaviors[0];
+        if (m_behaviors.Count > 1)
+        {
+            if (m_behaviors[1] != null)
+                nextAction = m_behaviors[1];
+        }
 
         if (nowAction.bIsSelected == true)
         {
@@ -114,6 +144,7 @@ public class BaseBehavior : MonoBehaviour
             nowAction.simulate();
         } else if (nowAction.bIsSelected == false)
         {
+            
             ScoreProcessing();
         }
     }
@@ -122,6 +153,13 @@ public class BaseBehavior : MonoBehaviour
     {
         previousAction = nowAction;
         m_behaviors.RemoveAt(0);
+        ScoreProcessing();
+    }
+
+    public void removeAction(ActionBehavior remove)
+    {
+        m_behaviors.Remove(remove);
+        nowAction = nextAction;
         ScoreProcessing();
     }
 
@@ -156,8 +194,6 @@ public class BaseBehavior : MonoBehaviour
         {
             patrolPoint.Add(m_WayPoint.getPatrolPos(i));
         }
-
-
     }
 
     public void houndPatrol()
@@ -166,12 +202,18 @@ public class BaseBehavior : MonoBehaviour
     }
 
     public void chase()
-    {
-        Destroy(m_WayPoint.gameObject);
+    { 
         m_WayPoint = null;
 
-        transform.position = Vector2.MoveTowards(transform.position, m_BasePerception.m_Player.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
-        
+        var playerLastPos = playerRef.transform.position;
+
+        if (m_BasePerception.bLineOfSight)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, playerRef.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
+        } else if (!m_BasePerception.bLineOfSight)
+        {
+            houndPatrol();
+        }
     }
 
     public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
@@ -200,7 +242,7 @@ public class ActionBehavior : ScriptableObject
     [HideInInspector] public int ScoreAction;
     public bool bIsInteruptable = true;
     [HideInInspector] public bool bIsAttackable;
-    [HideInInspector] public bool bIsSelected = false;
+    public bool bIsSelected = false;
     [HideInInspector] public BaseBehavior baseBehavior;
 
     public int getScore()
@@ -231,6 +273,9 @@ public class ActionBehavior : ScriptableObject
         {
             bIsSelected = false;
         }
+        
+        baseBehavior.m_behaviors.Remove(this);
+        baseBehavior.removeAction(this);
     }
 
     public virtual void onComplete()
