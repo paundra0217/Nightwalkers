@@ -37531,30 +37531,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: combo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: combo.Array.data[3]
       value: 
-      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0.61960787
-      objectReference: {fileID: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0.32941177
-      objectReference: {fileID: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 0.6156863
-      objectReference: {fileID: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2942194430549411227, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      propertyPath: m_Parameters.colorGradient.m_ColorSpace
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: ad9f55d634a39ae41b6deac6d1aa33d3, type: 2}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: combo.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: ad9f55d634a39ae41b6deac6d1aa33d3, type: 2}
     - target: {fileID: 6664290807309363937, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: m_Name
       value: Player

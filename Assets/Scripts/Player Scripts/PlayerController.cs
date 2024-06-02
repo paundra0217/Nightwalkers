@@ -76,28 +76,28 @@ namespace RDCT
 
         private void instantInput()
         {
-            bool counter = Input.GetKeyDown(KeyCode.P);
-            bool attack = Input.GetKey(KeyCode.O);
+            //bool counter = Input.GetKeyDown(KeyCode.P);
+            //bool attack = Input.GetKey(KeyCode.O);
 
-            if (counter && _grounded && _frameVelocity.x == 0)
-            {
-                _counterAttack = _counterTime < _realCounterTime * .5f;
-                _realCounterTime = _counterTime;
-                _animator.SetBool("attack", true);
-                _enableMove = false;
-            }
-            else if (_timeStamp > moveDelay)
-            {
-                _enableMove = true;
-                _animator.SetBool("attack", false);
-                _counterAttack = false;
-                _realCounterTime = 0;
-            }
+            //if (counter && _grounded && _frameVelocity.x == 0)
+            //{
+            //    _counterAttack = _counterTime < _realCounterTime * .5f;
+            //    _realCounterTime = _counterTime;
+            //    _animator.SetBool("attack", true);
+            //    _enableMove = false;
+            //}
+            //else if (_timeStamp > moveDelay)
+            //{
+            //    _enableMove = true;
+            //    _animator.SetBool("attack", false);
+            //    _counterAttack = false;
+            //    _realCounterTime = 0;
+            //}
 
-            if (attack)
-            {
-                _animator.SetBool("isAttacking", attack);
-            }
+            //if (attack)
+            //{
+            //    _animator.SetBool("isAttacking", attack);
+            //}
 
             if (_frameInput.JumpDown)
             {

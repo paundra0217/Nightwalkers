@@ -24,6 +24,17 @@ public class PlayerCombat : MonoBehaviour
     float AttackRate = 3.5f;
     float NextAttackTime;
     
+    [Header("Parry")]
+    //Variable buat Parry
+    public bool IsParry = false;
+    float ParryTime = 0.5f;
+    float ParryTakeDamageTime = 0f;
+    [Header("Flow")]
+    //Flow
+    [SerializeField] private PlayerCombatStat combatStat;
+    float CurrFlowGauge = 0;
+    //float MaxFlowGauge;
+
     //dkk
     Animator anim;
     TrailRenderer trail;
@@ -33,7 +44,8 @@ public class PlayerCombat : MonoBehaviour
     PlayerController playerController;
     Rigidbody2D rb;
     Collider2D collider2D;
-     [SerializeField] Weapon weapon;
+    [SerializeField] Weapon weapon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +58,11 @@ public class PlayerCombat : MonoBehaviour
         collider2D = GetComponent<Collider2D>();
     }
 
+    private void Awake()
+    {
+        //MaxFlowGauge = combatStat.MaxFlow;
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -53,11 +70,18 @@ public class PlayerCombat : MonoBehaviour
         {
             return;
         }
+
+        //catat waktu parry
+        if (IsParry)
+        {
+            ParryTakeDamageTime += Time.deltaTime;
+        }
+
         //Buat batesin Press Player per detik
         if(Time.time >= NextAttackTime)
         {
             //Player Input Attack
-            if (Input.GetKey(KeyCode.J))
+            if (Input.GetKey(KeyCode.O))
             {
                 //Ngesimpen waktu Press;
                 PressTime += Time.deltaTime;
@@ -68,27 +92,36 @@ public class PlayerCombat : MonoBehaviour
                     Charging += Time.deltaTime;
                     StatsPlayer.MaxSpeed = ChargeSpeed;
                     IsCharging = true;
-                    //ChargeAttack();
                     
                 }
 
                 
             }
-            //Buat Input Teken cepet
-            else if(Input.GetKeyUp(KeyCode.J) && PressTime < TimeToChargeAttack)
+
+            //Buat Input Attack Teken cepet
+            else if(Input.GetKeyUp(KeyCode.O) && PressTime < TimeToChargeAttack)
             {
                 
                 Attack();
                 NextAttackTime = Time.time + 1f / AttackRate;
             }
 
-            if(Input.GetKeyUp(KeyCode.J) && IsCharging)
+            //Input Parry
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                ParryTakeDamageTime = 0;
+                StartCoroutine(Parry());
+
+            }
+
+            //Key Up
+            if(Input.GetKeyUp(KeyCode.O) && IsCharging)
             {
                 StartCoroutine(Launch(PressTime, 0.1f));
                 PressTime = 0;
             }
 
-            else if(Input.GetKeyUp(KeyCode.J) && IsCharging == false)
+            else if(Input.GetKeyUp(KeyCode.O) && IsCharging == false)
             {
                 //reset PressTime
                 PressTime = 0;
@@ -101,6 +134,7 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
+    #region ComboAttack
     public void Attack()
     {
         if(Time.time - LastComboEnd > 0.5f && ComboCounter <= combo.Count)
@@ -171,6 +205,9 @@ public class PlayerCombat : MonoBehaviour
         LastComboEnd = Time.time;
     }
 
+    #endregion
+
+    #region ChargeAttack
     //Charge Attack
     public IEnumerator Launch(float dashingPower, float dashingTime)
     {
@@ -204,6 +241,44 @@ public class PlayerCombat : MonoBehaviour
         IsDashing = false;
         StatsPlayer.MaxSpeed = SpeedTemp;
     }
+
+    #endregion
+
+
+    //Parry
+    public IEnumerator Parry()
+    {
+        IsParry = true;
+        anim.SetBool("attack", true);
+        anim.SetTrigger("ParryTrigger");
+        yield return new WaitForSeconds(ParryTime);
+        IsParry = false;
+        anim.SetBool("attack", false);
+    }
+
+    public void Parried()
+    {
+        StopCoroutine(Parry());
+        Debug.Log(ParryTakeDamageTime);
+        if(ParryTakeDamageTime < 0.3f)
+        {
+            CurrFlowGauge += 30;
+            //Perfect Parry
+            //Debug.Log("Perfect");
+        }
+        else
+        {
+            CurrFlowGauge += 15;
+            //Normal Parry
+            //Debug.Log("Normal");
+
+        }
+        CurrFlowGauge = Mathf.Clamp(CurrFlowGauge, 0, combatStat.MaxFlow);
+
+    }
+
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
