@@ -57,8 +57,6 @@ public class AIInfo : MonoBehaviour
 
     private void comboAttack()
     {
-
-            
         if (bAttack)
         {
             if (AttackSeq > 0 && AttackSeq >= m_AttackHandler.Length)

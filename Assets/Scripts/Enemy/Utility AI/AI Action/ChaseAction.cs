@@ -13,6 +13,6 @@ public class ChaseAction : ActionBehavior
 
     public override void simulate()
     {
-        baseBehavior.chase();
+        
     }
 }

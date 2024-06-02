@@ -28,6 +28,7 @@ public class BaseBehavior : MonoBehaviour
     private int _currActionScore;
     private float _currHP;
     public int actionQ;
+    private int chases;
 
     public List<Transform> patrolPoint;
 
@@ -43,7 +44,7 @@ public class BaseBehavior : MonoBehaviour
 
     public ActionBehavior idleBehavior;
     public ActionBehavior chaseBehavior;
-
+    public ActionBehavior attackBehavior;
 
     [Header("Refrences")]
     [CanBeNull] public GameObject playerRef;
@@ -57,47 +58,36 @@ public class BaseBehavior : MonoBehaviour
         m_AIInfo = GetComponent<AIInfo>();
         m_WayPoint = GetComponent<Waypoint>();
         playerRef = m_BasePerception.findPlayer();
-        actionQ = m_behaviors.Count;
         _currHP = m_AIInfo.getHitPointLeft();
     }
 
-
     private void Update()
     {
-        
-
         if (m_behaviors.Count == 0)
         {
             m_behaviors.Add(defaultBehavior);
-            actionQ = m_behaviors.Count;
         }
 
-        if (m_BasePerception.bLineOfSight)
+        if (m_BasePerception.bLineOfSight == true)
         {
-            if (m_behaviors.Contains(chaseBehavior))
-                return;
+            if (chases < 1)
+            {
+                addAction(chaseBehavior);
+                chases += 1;
+            }
+            chase();
+            CompleteAction();
+        }
 
-            addAction(chaseBehavior);
-            CompleteAction();
-        }
-            
-        if (!m_BasePerception.bLineOfSight)
-        {
-            CompleteAction();
-        }
-        
         onSimulation();
     }
 
     private void ScoreProcessing()
     {
-        var bIsInteruptable = nowAction.getIntruption();
-        var iActionScore = nowAction.getScore();
-
-        if (!bIsInteruptable)
+        if (!nowAction.getIntruption())
             return;
         
-        if (GetBehaviorScoreNow() < iActionScore)
+        if (GetBehaviorScoreNow() < nextAction.getScore())
         {
             if (m_behaviors[1] != null)
             {
@@ -118,17 +108,11 @@ public class BaseBehavior : MonoBehaviour
                 }
             }
         }
-
-        if (m_behaviors.Count == 10)
-        {
-            int iRange = m_behaviors.Count;
-        }
     }
 
 
     private void onSimulation()
     {
-        //nowAction.GetComponent<ActionBehavior>();
         if (m_behaviors.Count == 0) return;
 
         nowAction = m_behaviors[0];
@@ -137,16 +121,8 @@ public class BaseBehavior : MonoBehaviour
             if (m_behaviors[1] != null)
                 nextAction = m_behaviors[1];
         }
-
-        if (nowAction.bIsSelected == true)
-        {
-            nowAction.OnSelected();
-            nowAction.simulate();
-        } else if (nowAction.bIsSelected == false)
-        {
-            
-            ScoreProcessing();
-        }
+        nowAction.OnSelected();
+        nowAction.simulate();
     }
 
     public void CompleteAction()
@@ -209,9 +185,12 @@ public class BaseBehavior : MonoBehaviour
 
         if (m_BasePerception.bLineOfSight)
         {
+            Debug.Log("Moving towards Player");
             transform.position = Vector2.MoveTowards(transform.position, playerRef.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
         } else if (!m_BasePerception.bLineOfSight)
         {
+            chases = 0;
+            CompleteAction();
             houndPatrol();
         }
     }
