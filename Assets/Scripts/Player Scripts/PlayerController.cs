@@ -38,11 +38,14 @@ namespace RDCT
         private float _realCounterTime;
         private float moveDelay;
 
+
+        private PlayerCombat playerCombat;
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _animator = GetComponent<Animator>();
+            playerCombat = GetComponent<PlayerCombat>();
 
             moveDelay = _timeStamp * 1.2f;
 
@@ -54,6 +57,11 @@ namespace RDCT
             _timeStamp = Time.deltaTime;
             _time += Time.deltaTime;
             _counterTime += Time.deltaTime;
+
+            if (playerCombat.IsDashing)
+            {
+                return;
+            }
             spriteFlip();
             GatherInput();
             if(_enableMove)
@@ -148,6 +156,7 @@ namespace RDCT
 
             //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
             //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);
+
             // Hit a Ceiling
             if (ceilingHit)
             {
@@ -159,10 +168,11 @@ namespace RDCT
             // Landed on the Ground
             if (!_grounded && groundHit)
             {
-                Debug.Log("tanah");
+                
                 isJumping = false;
                 _grounded = true;
                 _animator.SetBool("isLand", true);
+                _animator.SetBool("isFalling", isFalling);
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
@@ -171,7 +181,7 @@ namespace RDCT
             // Left the Ground
             else if (_grounded && !groundHit)
             {
-                
+                Debug.Log(_rb.velocity.y);
                 _grounded = false;
                 _frameLeftGrounded = _time;
                 _animator.SetBool("isLand", false);
