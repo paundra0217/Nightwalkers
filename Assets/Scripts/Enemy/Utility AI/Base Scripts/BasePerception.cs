@@ -10,6 +10,7 @@ public class BasePerception : MonoBehaviour
 
     private static float fNormalFactor = 10f;
     private static float fChaseFactor = 15f;
+    private float range;
 
     public bool bLineOfSight;
 
@@ -43,6 +44,14 @@ public class BasePerception : MonoBehaviour
         
         
         return bLineOfSight;
+    }
+
+    public float enemyToPlayerRange()
+    {
+        range = Vector2.Distance(this.transform.position, m_Player.transform.position);
+
+
+        return range;
     }
 
     private void OnDrawGizmos()

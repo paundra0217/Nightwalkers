@@ -96,4 +96,8 @@ public class AIInfo : MonoBehaviour
         return m_BaseProperties._fMoveSpeed;
     }
 
+    public float getKnockbakcRes()
+    {
+        return m_BaseProperties._fKnockbackRes;
+    }
 }

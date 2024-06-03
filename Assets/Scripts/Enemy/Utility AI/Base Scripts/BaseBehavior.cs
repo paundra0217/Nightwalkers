@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
-using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Mathematics;
 
 
 public enum EAIStates
@@ -29,12 +29,19 @@ public class BaseBehavior : MonoBehaviour
     private float _currHP;
     public int actionQ;
     private int chases;
+    private int rand;
+    private int ChangePoint;
+    private float meleeRange;
+    private float rangeDistance;
+    private Vector2 playerLastSeen;
+    private bool firstRunPatrol = true;
 
     public List<Transform> patrolPoint;
 
     [Header("Dont Change")]
     [CanBeNull] public List<ActionBehavior> m_behaviors;
     [CanBeNull] public Waypoint m_WayPoint;
+    public GameObject waypointPref;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
     public ActionBehavior previousAction;
@@ -70,13 +77,10 @@ public class BaseBehavior : MonoBehaviour
 
         if (m_BasePerception.bLineOfSight == true)
         {
-            if (chases < 1)
-            {
-                addAction(chaseBehavior);
-                chases += 1;
-            }
-            chase();
+            addAction(chaseBehavior);
             CompleteAction();
+            
+            chase();
         }
 
         onSimulation();
@@ -94,6 +98,7 @@ public class BaseBehavior : MonoBehaviour
                 if (m_behaviors[0] = m_behaviors[1])
                     m_behaviors.Remove(m_behaviors[1]);
             }
+            else return;
 
             for (int i = m_behaviors.Count; i == 0; i--)
             {
@@ -163,12 +168,52 @@ public class BaseBehavior : MonoBehaviour
     {
         getPatrolWaypoint();
 
+        if (m_WayPoint.IsUnityNull())
+        {
+            waypointPref = (GameObject)Instantiate(chaseEndPatrolPrefab, this.transform.position, Quaternion.identity);
+            m_WayPoint = waypointPref.GetComponent<Waypoint>();
+        }
+
         if (m_WayPoint.waypointAvail() == false)
             return;
 
         for (int i = 0; i > m_WayPoint.wayPointCount(); i++)
         {
             patrolPoint.Add(m_WayPoint.getPatrolPos(i));
+        }
+
+        if (firstRunPatrol)
+        {
+            rand = UnityEngine.Random.Range(1, 2);
+            ChangePoint = 1;
+            firstRunPatrol = false;
+        }
+
+        if (rand == 1)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
+            if (Vector2.Distance(this.transform.position, patrolPoint[1].transform.position) == 0)
+            {
+                ChangePoint = 2;
+            }
+        } else if (ChangePoint == 1)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
+            ChangePoint = 2;
+        } else if (ChangePoint == 2)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[2].transform.position, m_AIInfo.getMovespeed());
+            ChangePoint = UnityEngine.Random.Range(1, 3);
+        } else if (ChangePoint == 3)
+        {
+            var timeStamp = (int)Time.deltaTime;
+            int waitTime = timeStamp + 3;
+
+            if (waitTime < timeStamp)
+            {
+                ChangePoint = UnityEngine.Random.Range(1, 2);
+                return;
+            }
         }
     }
 
@@ -181,10 +226,9 @@ public class BaseBehavior : MonoBehaviour
     { 
         m_WayPoint = null;
 
-        var playerLastPos = playerRef.transform.position;
-
         if (m_BasePerception.bLineOfSight)
         {
+            playerLastSeen = playerRef.transform.position;
             Debug.Log("Moving towards Player");
             transform.position = Vector2.MoveTowards(transform.position, playerRef.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
         } else if (!m_BasePerception.bLineOfSight)
@@ -192,6 +236,20 @@ public class BaseBehavior : MonoBehaviour
             chases = 0;
             CompleteAction();
             houndPatrol();
+        }
+    }
+
+    public void attacking()
+    {
+        if (m_BasePerception.enemyToPlayerRange() > rangeDistance)
+        {
+
+        } else if (m_BasePerception.enemyToPlayerRange() > meleeRange)
+        {
+
+        } else
+        {
+
         }
     }
 
