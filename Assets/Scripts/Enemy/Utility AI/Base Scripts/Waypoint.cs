@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    List<Transform> _wp = new List<Transform>();
+    public List<Transform> _wp = new List<Transform>();
 
     private void Start()
     {
-        _wp.AddRange(transform.GetComponentsInChildren<Transform>());
+        if (_wp.Count < 1)
+        {
+            return;
+        }
+        //_wp.AddRange(transform.GetComponentsInChildren<Transform>());
     }
 
     public bool waypointAvail()
@@ -18,6 +22,16 @@ public class Waypoint : MonoBehaviour
         else if (_wp[0] = null) 
             return false;
 
-        return false;
+        return true;
+    }
+
+    public Transform getPatrolPos(int index)
+    {
+        return _wp[index].transform;
+    }
+
+    public int wayPointCount()
+    {
+        return _wp.Count;
     }
 }

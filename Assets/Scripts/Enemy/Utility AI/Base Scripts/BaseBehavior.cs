@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Mathematics;
 
 
 public enum EAIStates
@@ -16,7 +18,6 @@ public class BaseBehavior : MonoBehaviour
 {
     #region Module
 
-    public static EnemyBaseProperties     m_BaseProperties;
     public static BasePerception          m_BasePerception;
     public static AIInfo                  m_AIInfo;
 
@@ -26,89 +27,121 @@ public class BaseBehavior : MonoBehaviour
 
     private int _currActionScore;
     private float _currHP;
+    public int actionQ;
+    private int chases;
+    private int rand;
+    private int ChangePoint;
+    private float meleeRange;
+    private float rangeDistance;
+    private Vector2 playerLastSeen;
+    private bool firstRunPatrol = true;
 
+    public List<Transform> patrolPoint;
 
-    public List<ActionBehavior> m_behaviors;
-    public Waypoint m_WayPoint;
+    [Header("Dont Change")]
+    [CanBeNull] public List<ActionBehavior> m_behaviors;
+    [CanBeNull] public Waypoint m_WayPoint;
+    public GameObject waypointPref;
     public ActionBehavior nowAction;
     public ActionBehavior nextAction;
-    // public ActionBehavior previousAction;
+    public ActionBehavior previousAction;
+
+    [Header("Behavior Handler")]
+    public ActionBehavior defaultBehavior;
+
+    public ActionBehavior idleBehavior;
+    public ActionBehavior chaseBehavior;
+    public ActionBehavior attackBehavior;
+
+    [Header("Refrences")]
+    [CanBeNull] public GameObject playerRef;
+    [NotNull] public GameObject chaseEndPatrolPrefab;
 
     #endregion
 
     private void Start()
     {
         m_BasePerception = GetComponent<BasePerception>();
-        m_BaseProperties = GetComponent<EnemyBaseProperties>();
         m_AIInfo = GetComponent<AIInfo>();
         m_WayPoint = GetComponent<Waypoint>();
+        playerRef = m_BasePerception.findPlayer();
+        _currHP = m_AIInfo.getHitPointLeft();
     }
-
 
     private void Update()
     {
-        if (m_BaseProperties == null) { return ; }
-        _currHP = m_AIInfo.getHitPointLeft();
+        if (m_behaviors.Count == 0)
+        {
+            m_behaviors.Add(defaultBehavior);
+        }
+
+        if (m_BasePerception.bLineOfSight == true)
+        {
+            addAction(chaseBehavior);
+            CompleteAction();
+            
+            chase();
+        }
 
         onSimulation();
     }
 
-    private void ScoreProcessing(ActionBehavior nextActions)
+    private void ScoreProcessing()
     {
-        var bIsInteruptable = nowAction.getIntruption();
-        var iActionScore = nowAction.getScore();
-
-        if (!bIsInteruptable)
+        if (!nowAction.getIntruption())
             return;
         
-        if (GetBehaviorScoreNow() < iActionScore)
+        if (GetBehaviorScoreNow() < nextAction.getScore())
         {
             if (m_behaviors[1] != null)
             {
                 if (m_behaviors[0] = m_behaviors[1])
                     m_behaviors.Remove(m_behaviors[1]);
             }
-            
+            else return;
 
-            //addAction(nextActions);
             for (int i = m_behaviors.Count; i == 0; i--)
             {
-                for (int j = i-1; j <= i; j--)
+                for (int j = i - 1; j == 1; j--)
                 {
                     var score = m_behaviors[i].getScore();
                     var nextScore = m_behaviors[j].getScore();
 
                     if (score > nextScore)
-                    {
-                        var now = m_behaviors[i];
-                        var next = m_behaviors[j];
-
-                        if (j < 0) return;
-
-                        swap<ActionBehavior>(m_behaviors, i, j);
-                    }
+                        swap<ActionBehavior>(m_behaviors, j, i);
+                    else return;
                 }
             }
-
-            
-            //m_behaviors.RemoveAt(0);
         }
     }
 
 
     private void onSimulation()
     {
-        //nowAction.GetComponent<ActionBehavior>();
-        if (m_behaviors[0] == null) return;
+        if (m_behaviors.Count == 0) return;
 
-        nowAction = m_behaviors[0].GetComponent<ActionBehavior>();
-
-        if (nowAction.bIsSelected == true)
+        nowAction = m_behaviors[0];
+        if (m_behaviors.Count > 1)
         {
-            nowAction.OnSelected();
-            nowAction.simulate();
+            if (m_behaviors[1] != null)
+                nextAction = m_behaviors[1];
         }
-            
+        nowAction.OnSelected();
+        nowAction.simulate();
+    }
+
+    public void CompleteAction()
+    {
+        previousAction = nowAction;
+        m_behaviors.RemoveAt(0);
+        ScoreProcessing();
+    }
+
+    public void removeAction(ActionBehavior remove)
+    {
+        m_behaviors.Remove(remove);
+        nowAction = nextAction;
+        ScoreProcessing();
     }
 
     private int GetBehaviorScoreNow()
@@ -121,7 +154,7 @@ public class BaseBehavior : MonoBehaviour
     public void addAction(ActionBehavior actions)
     {
         m_behaviors.Add(actions);
-        ScoreProcessing(actions);
+        ScoreProcessing();
     }
 
     public Waypoint getPatrolWaypoint()
@@ -135,8 +168,89 @@ public class BaseBehavior : MonoBehaviour
     {
         getPatrolWaypoint();
 
+        if (m_WayPoint.IsUnityNull())
+        {
+            waypointPref = (GameObject)Instantiate(chaseEndPatrolPrefab, this.transform.position, Quaternion.identity);
+            m_WayPoint = waypointPref.GetComponent<Waypoint>();
+        }
+
         if (m_WayPoint.waypointAvail() == false)
             return;
+
+        for (int i = 0; i > m_WayPoint.wayPointCount(); i++)
+        {
+            patrolPoint.Add(m_WayPoint.getPatrolPos(i));
+        }
+
+        if (firstRunPatrol)
+        {
+            rand = UnityEngine.Random.Range(1, 2);
+            ChangePoint = 1;
+            firstRunPatrol = false;
+        }
+
+        if (rand == 1)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
+            if (Vector2.Distance(this.transform.position, patrolPoint[1].transform.position) == 0)
+            {
+                ChangePoint = 2;
+            }
+        } else if (ChangePoint == 1)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
+            ChangePoint = 2;
+        } else if (ChangePoint == 2)
+        {
+            Vector2.MoveTowards(this.transform.position, patrolPoint[2].transform.position, m_AIInfo.getMovespeed());
+            ChangePoint = UnityEngine.Random.Range(1, 3);
+        } else if (ChangePoint == 3)
+        {
+            var timeStamp = (int)Time.deltaTime;
+            int waitTime = timeStamp + 3;
+
+            if (waitTime < timeStamp)
+            {
+                ChangePoint = UnityEngine.Random.Range(1, 2);
+                return;
+            }
+        }
+    }
+
+    public void houndPatrol()
+    {
+        
+    }
+
+    public void chase()
+    { 
+        m_WayPoint = null;
+
+        if (m_BasePerception.bLineOfSight)
+        {
+            playerLastSeen = playerRef.transform.position;
+            Debug.Log("Moving towards Player");
+            transform.position = Vector2.MoveTowards(transform.position, playerRef.transform.position, m_AIInfo.getMovespeed() * Time.deltaTime);
+        } else if (!m_BasePerception.bLineOfSight)
+        {
+            chases = 0;
+            CompleteAction();
+            houndPatrol();
+        }
+    }
+
+    public void attacking()
+    {
+        if (m_BasePerception.enemyToPlayerRange() > rangeDistance)
+        {
+
+        } else if (m_BasePerception.enemyToPlayerRange() > meleeRange)
+        {
+
+        } else
+        {
+
+        }
     }
 
     public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
@@ -165,8 +279,8 @@ public class ActionBehavior : ScriptableObject
     [HideInInspector] public int ScoreAction;
     public bool bIsInteruptable = true;
     [HideInInspector] public bool bIsAttackable;
-    [HideInInspector] public bool bIsSelected = false;
-    public BaseBehavior baseBehavior;
+    public bool bIsSelected = false;
+    [HideInInspector] public BaseBehavior baseBehavior;
 
     public int getScore()
     {
@@ -181,8 +295,31 @@ public class ActionBehavior : ScriptableObject
     public virtual void OnSelected()
     {
         baseBehavior.GetComponent<BaseBehavior>();
-        bIsSelected = false;
+        bIsSelected = true;
+        simulate();
     }
 
     public virtual void simulate() { }
+
+    public virtual void OnStopSimulate()
+    {
+        if (bIsInteruptable == false)
+        {
+            return;
+        } else if (bIsInteruptable == true)
+        {
+            bIsSelected = false;
+        }
+        
+        baseBehavior.m_behaviors.Remove(this);
+        baseBehavior.removeAction(this);
+    }
+
+    public virtual void onComplete()
+    {
+        Debug.Log("Simulation Complete");
+        OnStopSimulate();
+        baseBehavior.m_behaviors.Remove(this);
+        baseBehavior.CompleteAction();
+    }
 }

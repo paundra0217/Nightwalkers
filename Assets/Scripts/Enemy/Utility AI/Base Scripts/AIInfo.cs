@@ -17,12 +17,10 @@ public class AIInfo : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        m_BaseProperties = GetComponent<EnemyBaseProperties>();      
+    {      
         AttackSeq = 0;
         MaxHitPoint = m_BaseProperties._fHitpoints;
         HitPoint = MaxHitPoint;
-        
     }
 
     // Update is called once per frame
@@ -59,8 +57,6 @@ public class AIInfo : MonoBehaviour
 
     private void comboAttack()
     {
-
-            
         if (bAttack)
         {
             if (AttackSeq > 0 && AttackSeq >= m_AttackHandler.Length)
@@ -88,5 +84,20 @@ public class AIInfo : MonoBehaviour
     private void Projectile()
     {
         if (m_AttackHandler[AttackSeq].projectile = null) return;   
+    }
+
+    public float getLineOfSightDistance()
+    {
+        return m_BaseProperties._fperceptionBase;
+    }
+
+    public float getMovespeed()
+    {
+        return m_BaseProperties._fMoveSpeed;
+    }
+
+    public float getKnockbakcRes()
+    {
+        return m_BaseProperties._fKnockbackRes;
     }
 }
