@@ -8,20 +8,26 @@ public class movingPlatform : MonoBehaviour
     public Transform platform;
     public Transform startPoint;
     public Transform endPoint;
-    public float speed = 1f;
+    [SerializeField] private float speed = 1f;
 
-    int dir = 1;
+    private int dir = 1;
+    [SerializeField] private float waitTime;
 
     // Start is called before the first frame update
     private void Update()
     {
         Vector2 target = currMoveTarget();
 
-        platform.position = Vector2.Lerp(platform.position, target, speed * Time.deltaTime);
+        platform.position = Vector2.MoveTowards(platform.position, target, speed * Time.deltaTime);
 
         float distance = (target - (Vector2)platform.position).magnitude;
+        float distest = Vector2.Distance(platform.position, target);
 
-        if (distance <= .1f) dir *= -1;
+        if (distest <= .05f)
+        {
+            dir *= -1;
+            StartCoroutine(WaitNextPoint());
+        }
     }
 
     Vector2 currMoveTarget()
@@ -29,6 +35,11 @@ public class movingPlatform : MonoBehaviour
         if(dir == 1)
             return startPoint.position;
         else return endPoint.position;
+    }
+
+    IEnumerator WaitNextPoint()
+    {
+        yield return new WaitForSeconds(waitTime);
     }
 
     private void OnDrawGizmos()
