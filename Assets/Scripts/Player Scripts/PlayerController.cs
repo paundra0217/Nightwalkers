@@ -113,8 +113,8 @@ namespace RDCT
         {
             _frameInput = new FrameInput
             {
-                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
-                JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+                JumpDown = Input.GetButtonDown("Jump"),
+                JumpHeld = Input.GetButton("Jump"),
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
 
@@ -152,7 +152,7 @@ namespace RDCT
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            
+             
 
             //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
             //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);

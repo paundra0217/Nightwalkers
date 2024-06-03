@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 613b1c4c7e11bc845ad8110662ed1ccc
+guid: 0b27d74bd5327f14ead6e66b2834b792
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luna new jump sprite sheet_0
+      name: Luna new run sprite sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e3fcbcfbf2c6ad4c9e5ec249852c22f
-      internalID: -624168173
+      spriteID: 1e23897e2dd012546a10176706e45314
+      internalID: -136875023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna new jump sprite sheet_1
+      name: Luna new run sprite sheet_1
       rect:
         serializedVersion: 2
         x: 64
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cef90f6681d2b04428d096da99301632
-      internalID: -1323917689
+      spriteID: 58a15181f1d1b7e4cbbdd9fd012e23a3
+      internalID: -784230366
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna new jump sprite sheet_2
+      name: Luna new run sprite sheet_2
       rect:
         serializedVersion: 2
         x: 128
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 866c81824bbe2de4d87d9226cee1b515
-      internalID: 1177498401
+      spriteID: bce7524ffff8f8245bd4581207779497
+      internalID: -328898831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna new jump sprite sheet_3
+      name: Luna new run sprite sheet_3
       rect:
         serializedVersion: 2
         x: 192
@@ -174,29 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 735dae28e9cab76458dc8a10e73ad867
-      internalID: 1832154810
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luna new jump sprite sheet_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 67
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 31cb8798d996da444852fd7667b8d911
-      internalID: -710383016
+      spriteID: f234482e9e0b6f746bf89b72c3faea7a
+      internalID: -719473000
       vertices: []
       indices: 
       edges: []
@@ -212,11 +191,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Luna new jump sprite sheet_0: -624168173
-      Luna new jump sprite sheet_1: -1323917689
-      Luna new jump sprite sheet_2: 1177498401
-      Luna new jump sprite sheet_3: 1832154810
-      Luna new jump sprite sheet_4: -710383016
+      Luna new run sprite sheet_0: -136875023
+      Luna new run sprite sheet_1: -784230366
+      Luna new run sprite sheet_2: -328898831
+      Luna new run sprite sheet_3: -719473000
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

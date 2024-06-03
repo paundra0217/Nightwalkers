@@ -19223,7 +19223,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.3
+  m_fontSize: 26.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -37491,6 +37491,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11496691993570984, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 14388147, guid: 33724ad5bcddcc142b531664274324cc, type: 3}
     - target: {fileID: 1869973882788846589, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.25
@@ -37532,6 +37536,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: combatStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 151ee3fa38dfea748a9ca955b21f6099, type: 2}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: combo.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -37543,6 +37551,22 @@ PrefabInstance:
       propertyPath: combo.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: ad9f55d634a39ae41b6deac6d1aa33d3, type: 2}
+    - target: {fileID: 5782639672939909035, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: m_Size.x
+      value: 0.65118325
+      objectReference: {fileID: 0}
+    - target: {fileID: 5782639672939909035, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: m_Size.y
+      value: 0.64659804
+      objectReference: {fileID: 0}
+    - target: {fileID: 5782639672939909035, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.017294766
+      objectReference: {fileID: 0}
+    - target: {fileID: 5782639672939909035, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0079968
+      objectReference: {fileID: 0}
     - target: {fileID: 6664290807309363937, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: m_Name
       value: Player

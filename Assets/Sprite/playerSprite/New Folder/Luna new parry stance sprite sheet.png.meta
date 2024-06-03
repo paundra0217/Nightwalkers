@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ce39b7828afe493419c7cfde47aef0ad
+guid: a10e6edb0f59c8f48b8d9a577845035e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_0
+      name: Luna new parry stance sprite sheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 192
-        height: 80
+        x: 21
+        y: 6
+        width: 50
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78b9d88a33a8d6f4ab9ae13ab46d6c77
-      internalID: 376258305
+      spriteID: ab3ecb444cdcb464580c5ad1396e852d
+      internalID: 1139985260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_1
+      name: Luna new parry stance sprite sheet_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 192
-        height: 80
+        x: 166
+        y: 6
+        width: 42
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8347fc2a4688e56408fda134e093a73e
-      internalID: 207447442
+      spriteID: cbf51feb7c946a544bc9c787e01e463c
+      internalID: 618947889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_2
+      name: Luna new parry stance sprite sheet_2
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 192
-        height: 80
+        x: 319
+        y: 6
+        width: 32
+        height: 62
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8624153846864bb4b80392f0c692ffd6
-      internalID: 85918631
+      spriteID: e4f849f9d2ee9664bb3840fe7a2f50fc
+      internalID: 2064072819
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_3
+      name: Luna new parry stance sprite sheet_3
       rect:
         serializedVersion: 2
-        x: 576
-        y: 0
-        width: 192
-        height: 80
+        x: 456
+        y: 6
+        width: 48
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 603183005c7be0543891f9a514bd4341
-      internalID: 1776896733
+      spriteID: 32f67bb09ada48d4c841803337589c67
+      internalID: -1653096799
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_4
+      name: Luna new parry stance sprite sheet_4
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
-        width: 192
-        height: 80
+        x: 594
+        y: 6
+        width: 47
+        height: 59
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39b8227fabbbf5a459e50348646e1ea7
-      internalID: 1726920330
+      spriteID: e1a5d647eb3d1e143908b3d1764bae62
+      internalID: -1815975640
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_5
+      name: Luna new parry stance sprite sheet_5
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
-        width: 192
-        height: 80
+        x: 733
+        y: 6
+        width: 47
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77fd5f9c845114b44888536f590834d6
-      internalID: 852389010
+      spriteID: d421658c9c4a153499e84c770bc2f9ef
+      internalID: 1853752661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_6
+      name: Luna new parry stance sprite sheet_6
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 0
-        width: 192
-        height: 80
+        x: 873
+        y: 6
+        width: 47
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,92 +237,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69a7c6f93f9e0484a8aac4d8fd03f975
-      internalID: 1239670264
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_7
-      rect:
-        serializedVersion: 2
-        x: 1344
-        y: 0
-        width: 192
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43b2f99f1dc92d04789710a29010f187
-      internalID: -867205257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_8
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 192
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09a6fda538c0c2c449ff1bd204d2a82f
-      internalID: 623792775
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_9
-      rect:
-        serializedVersion: 2
-        x: 1728
-        y: 0
-        width: 192
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8f8edb26a7d6b9948acdd760ac8c5ba2
-      internalID: 159450208
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 192x80_Luna_new_attack_1_sprite_sheet_10
-      rect:
-        serializedVersion: 2
-        x: 1920
-        y: 0
-        width: 192
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6fc1765beae815a4899a274de62cfdc6
-      internalID: 266441222
+      spriteID: 61251e615bdef8b40b6f953f6e38e9fd
+      internalID: -1656572555
       vertices: []
       indices: 
       edges: []
@@ -338,17 +254,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      192x80_Luna_new_attack_1_sprite_sheet_0: 376258305
-      192x80_Luna_new_attack_1_sprite_sheet_1: 207447442
-      192x80_Luna_new_attack_1_sprite_sheet_10: 266441222
-      192x80_Luna_new_attack_1_sprite_sheet_2: 85918631
-      192x80_Luna_new_attack_1_sprite_sheet_3: 1776896733
-      192x80_Luna_new_attack_1_sprite_sheet_4: 1726920330
-      192x80_Luna_new_attack_1_sprite_sheet_5: 852389010
-      192x80_Luna_new_attack_1_sprite_sheet_6: 1239670264
-      192x80_Luna_new_attack_1_sprite_sheet_7: -867205257
-      192x80_Luna_new_attack_1_sprite_sheet_8: 623792775
-      192x80_Luna_new_attack_1_sprite_sheet_9: 159450208
+      Luna new parry stance sprite sheet_0: 1139985260
+      Luna new parry stance sprite sheet_1: 618947889
+      Luna new parry stance sprite sheet_2: 2064072819
+      Luna new parry stance sprite sheet_3: -1653096799
+      Luna new parry stance sprite sheet_4: -1815975640
+      Luna new parry stance sprite sheet_5: 1853752661
+      Luna new parry stance sprite sheet_6: -1656572555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
