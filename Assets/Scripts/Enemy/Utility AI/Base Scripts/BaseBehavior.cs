@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Mathematics;
+using UnityEditor;
 
 
 public enum EAIStates
@@ -33,8 +34,12 @@ public class BaseBehavior : MonoBehaviour
     private int ChangePoint;
     private float meleeRange;
     private float rangeDistance;
-    private Vector2 playerLastSeen;
     private bool firstRunPatrol = true;
+
+    private Vector2 rightPatrol;
+    private Vector2 leftPatrol;
+    private Vector2 playerLastSeen;
+    
 
     public List<Transform> patrolPoint;
 
@@ -83,6 +88,11 @@ public class BaseBehavior : MonoBehaviour
             chase();
         }
 
+        if(m_behaviors.Contains(defaultBehavior))
+        {
+
+        }
+
         onSimulation();
     }
 
@@ -90,7 +100,10 @@ public class BaseBehavior : MonoBehaviour
     {
         if (!nowAction.getIntruption())
             return;
-        
+
+        if (nextAction.IsUnityNull())
+            return;
+
         if (GetBehaviorScoreNow() < nextAction.getScore())
         {
             if (m_behaviors[1] != null)
@@ -166,55 +179,12 @@ public class BaseBehavior : MonoBehaviour
 
     public void Patrol()
     {
-        getPatrolWaypoint();
+        var currPos = transform.position;
 
-        if (m_WayPoint.IsUnityNull())
-        {
-            waypointPref = (GameObject)Instantiate(chaseEndPatrolPrefab, this.transform.position, Quaternion.identity);
-            m_WayPoint = waypointPref.GetComponent<Waypoint>();
-        }
-
-        if (m_WayPoint.waypointAvail() == false)
-            return;
-
-        for (int i = 0; i > m_WayPoint.wayPointCount(); i++)
-        {
-            patrolPoint.Add(m_WayPoint.getPatrolPos(i));
-        }
-
-        if (firstRunPatrol)
-        {
-            rand = UnityEngine.Random.Range(1, 2);
-            ChangePoint = 1;
-            firstRunPatrol = false;
-        }
-
-        if (rand == 1)
-        {
-            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
-            if (Vector2.Distance(this.transform.position, patrolPoint[1].transform.position) == 0)
-            {
-                ChangePoint = 2;
-            }
-        } else if (ChangePoint == 1)
-        {
-            Vector2.MoveTowards(this.transform.position, patrolPoint[1].transform.position, m_AIInfo.getMovespeed());
-            ChangePoint = 2;
-        } else if (ChangePoint == 2)
-        {
-            Vector2.MoveTowards(this.transform.position, patrolPoint[2].transform.position, m_AIInfo.getMovespeed());
-            ChangePoint = UnityEngine.Random.Range(1, 3);
-        } else if (ChangePoint == 3)
-        {
-            var timeStamp = (int)Time.deltaTime;
-            int waitTime = timeStamp + 3;
-
-            if (waitTime < timeStamp)
-            {
-                ChangePoint = UnityEngine.Random.Range(1, 2);
-                return;
-            }
-        }
+        rightPatrol = currPos.normalized + transform.right;
+        leftPatrol = currPos.normalized - transform.right;
+        
+        
     }
 
     public void houndPatrol()
@@ -259,6 +229,12 @@ public class BaseBehavior : MonoBehaviour
         list[indexA] = list[indexB];
         list[indexB] = tmp;
         return list;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(leftPatrol, 2);
+        Gizmos.DrawSphere(rightPatrol, 2);  
     }
 }
 

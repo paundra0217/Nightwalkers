@@ -19218,7 +19218,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.35
+  m_fontSize: 37.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -27030,6 +27030,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 906301484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1136332173 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4880184467596664203, guid: 886ebb671106f764fbf6256e5df12eaa, type: 3}
+  m_PrefabInstance: {fileID: 5328725856175182786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1136332174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 506225173200894578, guid: 886ebb671106f764fbf6256e5df12eaa, type: 3}
+  m_PrefabInstance: {fileID: 5328725856175182786}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136332173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28cc0009a5fae1241848ca60e945480b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1209224505
 GameObject:
   m_ObjectHideFlags: 0
@@ -27534,9 +27550,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ac31d4b6b6079b34e9729d1391f68e3f, type: 2}
     - target: {fileID: 5835327627993271404, guid: b3d238727434e644f907708369274a9c, type: 3}
+      propertyPath: m_WayPoint
+      value: 
+      objectReference: {fileID: 1136332174}
+    - target: {fileID: 5835327627993271404, guid: b3d238727434e644f907708369274a9c, type: 3}
       propertyPath: idleBehavior
       value: 
       objectReference: {fileID: 11400000, guid: f6674a26dd9c8fe47bc32228f50be446, type: 2}
+    - target: {fileID: 5835327627993271404, guid: b3d238727434e644f907708369274a9c, type: 3}
+      propertyPath: waypointPref
+      value: 
+      objectReference: {fileID: 1136332173}
     - target: {fileID: 5835327627993271404, guid: b3d238727434e644f907708369274a9c, type: 3}
       propertyPath: chaseBehavior
       value: 
