@@ -35,6 +35,7 @@ public class BaseBehavior : MonoBehaviour
     private float meleeRange;
     private float rangeDistance;
     private bool firstRunPatrol = true;
+    private bool isHoundPatrol = false;
 
     private Vector2 rightPatrol;
     private Vector2 leftPatrol;
@@ -90,7 +91,7 @@ public class BaseBehavior : MonoBehaviour
 
         if(m_behaviors.Contains(defaultBehavior))
         {
-
+            Patrol();
         }
 
         onSimulation();
@@ -179,11 +180,14 @@ public class BaseBehavior : MonoBehaviour
 
     public void Patrol()
     {
-        var currPos = transform.position;
+        var currPos = (Vector2)transform.position;
 
-        rightPatrol = currPos.normalized + transform.right;
-        leftPatrol = currPos.normalized - transform.right;
-        
+        if (isHoundPatrol == false)
+        {
+            rightPatrol = currPos + Vector2.right;
+            leftPatrol = currPos + Vector2.left;
+        }
+
         
     }
 
