@@ -41,8 +41,10 @@ public class PlayerCombat : MonoBehaviour
     float CurrFlowGauge = 0;
     //float MaxFlowGauge;
     [Header("Conjure")]
-    [SerializeField] private ConjureSO _conjureSO;
-
+    [SerializeField] private ConjureSO[] ConjureSOs;
+    [SerializeField] private Transform ProjectilePos;
+    public int ConjureIndex = 0;
+    public bool IsConjure = false;
     //dkk
     Animator anim;
     TrailRenderer trail;
@@ -109,15 +111,38 @@ public class PlayerCombat : MonoBehaviour
             //Conjure
             else if (Input.GetKey(KeyCode.LeftAlt))
             {
-                //Select Zodiac
+                //Select Zodiac left
                 if (Input.GetKeyDown(KeyCode.O))
                 {
+                    if(ConjureIndex == 0)
+                    {
+                        ConjureIndex = 11;
+                    }
+                    else
+                    {
+                        ConjureIndex--;
+                    }
 
                 }
 
-                //Choose Zodiac
-                else if (Input.GetKeyDown(KeyCode.P))
+                //Select Zodiac right
+                else if (Input.GetKeyDown(KeyCode.I))
                 {
+                    if (ConjureIndex == 11)
+                    {
+                        ConjureIndex = 0;
+                    }
+                    else
+                    {
+                        ConjureIndex++;
+                    }
+
+                }
+                //Choose Zodiac
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    ConjureWeapon();
+                    //IsConjure = true;
 
                 }
 
@@ -174,14 +199,6 @@ public class PlayerCombat : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TakeDamage(1f);
-        }
-        else if (Input.GetKeyDown(KeyCode.Y))
-        {
-            CurrFlowGauge += 20;
-        }
 
     }
 
@@ -304,17 +321,17 @@ public class PlayerCombat : MonoBehaviour
     public IEnumerator Parry()
     {
         IsParry = true;
-        anim.SetBool("attack", true);
         anim.SetTrigger("ParryTrigger");
         yield return new WaitForSeconds(ParryTime);
         IsParry = false;
-        anim.SetBool("attack", false);
+        anim.SetBool("Parry_Fail", true);
     }
 
     public void Parried()
     {
         StopCoroutine(Parry());
-        Debug.Log(ParryTakeDamageTime);
+        anim.SetTrigger("Parry_Success");
+        //Debug.Log(ParryTakeDamageTime);
         if(ParryTakeDamageTime < 0.3f)
         {
             //Perfect Parry
@@ -378,6 +395,19 @@ public class PlayerCombat : MonoBehaviour
 
     #region Conjure
 
+    public void ConjureWeapon()
+    {
+        if(CurrFlowGauge < ConjureSOs[ConjureIndex].BulletCost)
+        {
+            Debug.Log("Flow gk cukup");
+            return;
+        }
+        for(int i = 0; i < ConjureSOs[ConjureIndex].BurstAmount; i++)
+        {
+            Instantiate(ConjureSOs[ConjureIndex].Projectile, ProjectilePos);
+        }
+
+    }
 
     #endregion
 

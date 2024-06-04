@@ -71,7 +71,7 @@ namespace RDCT
                 HandleDirection();
             }
             
-            instantInput();
+            //instantInput();
         }
 
         private void instantInput()
@@ -99,13 +99,14 @@ namespace RDCT
             //    _animator.SetBool("isAttacking", attack);
             //}
 
-            if (_frameInput.JumpDown)
-            {
-                isJumping = true;
-                _animator.SetBool("isJumping", isJumping);
-            } else isJumping = false;
-            _animator.SetBool("isJumping", isJumping);
-
+            //if (_frameInput.JumpDown)
+            //{
+            //    Debug.Log("test");
+            //    isJumping = true;
+            //    _animator.SetBool("isJumping", isJumping);
+            //} else isJumping = false;
+            //_animator.SetBool("isJumping", isJumping);
+            //Debug.Log(_rb.velocity.y);
 
         }
 
@@ -172,7 +173,7 @@ namespace RDCT
                 isJumping = false;
                 _grounded = true;
                 _animator.SetBool("isLand", true);
-                _animator.SetBool("isFalling", isFalling);
+                //_animator.SetBool("isFalling", isFalling);
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
@@ -181,11 +182,11 @@ namespace RDCT
             // Left the Ground
             else if (_grounded && !groundHit)
             {
-                Debug.Log(_rb.velocity.y);
+                
                 _grounded = false;
                 _frameLeftGrounded = _time;
                 _animator.SetBool("isLand", false);
-                _animator.SetBool("isFalling", isFalling);
+                //_animator.SetBool("isFalling", isFalling);
                 GroundedChanged?.Invoke(false, 0);
             }
 
@@ -289,11 +290,13 @@ namespace RDCT
         private void ApplyMovement()
         {
             float animController = _rb.velocity.x;
+            float Velocity_y = _rb.velocity.y;
             if(animController < 0) animController = 1;           
             
             
 
             _animator.SetFloat("Speed", animController);
+            _animator.SetFloat("Speed_Y", Velocity_y);
             _rb.velocity = _frameVelocity;
         }
     }
