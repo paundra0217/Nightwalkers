@@ -322,6 +322,7 @@ public class PlayerCombat : MonoBehaviour
     public IEnumerator Parry()
     {
         IsParry = true;
+        anim.SetBool("Parry_Fail", false);
         anim.SetTrigger("ParryTrigger");
         yield return new WaitForSeconds(ParryTime);
         IsParry = false;
