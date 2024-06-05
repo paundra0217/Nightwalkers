@@ -83,8 +83,10 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        if (IsDashing && Hp <= 0)
+        if (IsDashing || Hp <= 0)
         {
+            //fuck you
+            Destroy(gameObject);
             return;
         }
 
@@ -330,7 +332,7 @@ public class PlayerCombat : MonoBehaviour
         IsParry = true;
         anim.SetBool("Parry_Fail", false);
         anim.SetTrigger("ParryTrigger");
-        yield return new WaitForSeconds(ParryTime);
+        yield return new WaitForSeconds(1f);
         IsParry = false;
         anim.SetBool("Parry_Fail", true);
     }
@@ -360,6 +362,14 @@ public class PlayerCombat : MonoBehaviour
     #endregion
 
     #region PlayerCombat
+    public bool PlayerDeath()
+    {
+        if(Hp <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public IEnumerator TakeDamage(float damage)
     {

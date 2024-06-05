@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Mathematics;
@@ -77,6 +78,7 @@ public class BaseBehavior : MonoBehaviour
 
     #endregion
 
+    bool ReadyAttack = true;
     private void Start()
     {
         currPos = (Vector2)transform.position;
@@ -120,10 +122,14 @@ public class BaseBehavior : MonoBehaviour
         {
 
         }
+        
         if (m_BasePerception.enemyToPlayerRange() < meleeRange)
         {
-            attacking();
-            isAttacking = true;
+            if (ReadyAttack)
+            {
+                StartCoroutine(attacking());
+            }
+                isAttacking = true;
         }
         else
         {
@@ -349,29 +355,42 @@ public class BaseBehavior : MonoBehaviour
         }    
     }
 
-    public void attacking()
+    public IEnumerator attacking()
     {
         Debug.Log("Attacking");
-
-        animators.SetBool("Attack", true);
+        //animators.SetBool("Attack", true);
+        ReadyAttack = false;
+        animators.SetTrigger("Attacking");
+        yield return new WaitForSeconds(2f);
+        ReadyAttack = true;
+       
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] private LayerMask PlayerLayer;
+
+    public void AttackBeneran()
     {
-        if (collision.CompareTag("Player"))
+        
+        Collider2D Player = Physics2D.OverlapCircle(transform.position, 1f, PlayerLayer);
+
+        Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
+        PlayerCombat pcon = Player.GetComponent<PlayerCombat>();
+        Vector2 direction = (Player.transform.position - transform.position).normalized;
+        if (pcon.IsParry)
         {
-            Debug.Log("Hit Player");
-
-            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-            PlayerCombat pcon = collision.GetComponent<PlayerCombat>();
-
-            pcon.TakeDamage(m_AIInfo.getDamage());
-
-            Vector2 direction = (collision.transform.position - transform.position).normalized;
+            pcon.Parried();
+            Debug.Log("berhasil");
+            
+        }
+        else
+        {
+            Debug.Log("gagal");
+            StartCoroutine(pcon.TakeDamage(m_AIInfo.getDamage()));
+            
             rb.AddForce(direction * 10f, ForceMode2D.Impulse);
         }
-    }
 
+    }
     public static IList<T> swap<T>(IList<T> list, int indexA, int indexB)
     {
         T tmp = list[indexA];
