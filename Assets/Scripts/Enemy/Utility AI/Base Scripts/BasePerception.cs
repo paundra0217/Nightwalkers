@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -14,7 +15,7 @@ public class BasePerception : MonoBehaviour
 
     public bool bLineOfSight;
 
-    public GameObject m_Player;
+    [CanBeNull]public GameObject m_Player;
 
     // Start is called before the first frame update
     void Start()

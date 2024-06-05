@@ -360,6 +360,11 @@ public class BaseBehavior : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log("Hit Player");
+
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+
+            Vector2 direction = (collision.transform.position - transform.position).normalized;
+            rb.AddForce(direction * 10f, ForceMode2D.Impulse);
         }
     }
 
