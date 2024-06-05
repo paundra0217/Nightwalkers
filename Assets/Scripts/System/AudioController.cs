@@ -38,7 +38,7 @@ class AudioObject
     [Tooltip("If enabled, the audio will be played when the scene is loaded")]
     public bool PlayOnAwake;
     
-    [HideInInspector]  public AudioSource Source;
+    [HideInInspector] public AudioSource Source;
 }
 
 public class AudioController : MonoBehaviour
@@ -96,7 +96,7 @@ public class AudioController : MonoBehaviour
 
         foreach (var a in audios)
         {
-            AudioSource aSource = gameObject.AddComponent<AudioSource>();
+            AudioSource aSource = gameObject.GetComponent<AudioSource>();
 
             aSource.clip = a.AudioClip; 
             aSource.loop = a.Looping;
