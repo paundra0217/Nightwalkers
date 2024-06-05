@@ -353,8 +353,11 @@ public class BaseBehavior : MonoBehaviour
         Debug.Log("Attacking");
 
         animators.SetBool("Attack", true);
+    }
 
-        if (attackCollider.CompareTag("Player"))
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
         {
             Debug.Log("Hit Player");
         }
@@ -376,8 +379,6 @@ public class BaseBehavior : MonoBehaviour
         //Gizmos.DrawLine(transform.position, orientationR.transform.position);
         
     }
-
-    
 }
 
 
