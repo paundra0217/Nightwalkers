@@ -27553,6 +27553,10 @@ PrefabInstance:
       propertyPath: waypointPref
       value: 
       objectReference: {fileID: 1136332173}
+    - target: {fileID: 8019269684395503610, guid: b3d238727434e644f907708369274a9c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8569602304653239163, guid: b3d238727434e644f907708369274a9c, type: 3}
       propertyPath: m_Name
       value: Thug
