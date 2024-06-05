@@ -15,10 +15,16 @@ public class Weapon : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<AIInfo>())
         {
+            Debug.Log("damage enemy");
             AIInfo aIInfo = collision.GetComponent<AIInfo>();
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+
+            //Take Damage
             aIInfo.TakeDamage(Damage);
 
-
+            //Enemy AddForce
+            Vector2 direction = (collision.transform.position - transform.position).normalized;
+            rb.AddForce(direction * 5f, ForceMode2D.Impulse);
         }
     }
 

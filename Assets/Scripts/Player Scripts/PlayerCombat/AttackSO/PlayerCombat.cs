@@ -5,12 +5,18 @@ using RDCT;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Stats")]
+    //Player Stats
+    private float Hp = 0;
+
+    [Header("Combo")]
     //buat combo
     public List<AttackSO> combo;
     [SerializeField] ScriptableStats StatsPlayer;
     float LastClickedTime;
     float LastComboEnd;
     int ComboCounter;
+
 
     //buat charge attack
     float PressTime = 0;
@@ -34,7 +40,11 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private PlayerCombatStat combatStat;
     float CurrFlowGauge = 0;
     //float MaxFlowGauge;
-
+    [Header("Conjure")]
+    [SerializeField] private ConjureSO[] ConjureSO_Group;
+    [SerializeField] private Transform ProjectilePos;
+    public int ConjureIndex = 0;
+    public bool IsConjure = false;
     //dkk
     Animator anim;
     TrailRenderer trail;
@@ -44,7 +54,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerController playerController;
     Rigidbody2D rb;
     Collider2D collider2D;
-    [SerializeField] Weapon weapon;
+    [SerializeField] Weapon[] weapon;
 
     // Start is called before the first frame update
     void Start()
@@ -62,11 +72,12 @@ public class PlayerCombat : MonoBehaviour
     {
         //MaxFlowGauge = combatStat.MaxFlow;
 
+        Hp = combatStat.Maxhp;
     }
     // Update is called once per frame
     void Update()
     {
-        if (IsDashing)
+        if (IsDashing && Hp <= 0)
         {
             return;
         }
@@ -80,8 +91,65 @@ public class PlayerCombat : MonoBehaviour
         //Buat batesin Press Player per detik
         if(Time.time >= NextAttackTime)
         {
+            //Flow input
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                //flow Heal
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    FlowHeal();
+                }
+
+                //Gyakuten pls gw gk tau apaan cuman ada kata disainer
+                else if (Input.GetKeyDown(KeyCode.P))
+                {
+                    Gyakuten();
+                }
+
+            }
+
+            //Conjure
+            else if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                //Select Zodiac left
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    if(ConjureIndex == 0)
+                    {
+                        ConjureIndex = ConjureSO_Group.Length-1;
+                    }
+                    else
+                    {
+                        ConjureIndex--;
+                    }
+
+                }
+
+                //Select Zodiac right
+                else if (Input.GetKeyDown(KeyCode.P))
+                {
+                    if (ConjureIndex == ConjureSO_Group.Length - 1)
+                    {
+                        ConjureIndex = 0;
+                    }
+                    else
+                    {
+                        ConjureIndex++;
+                    }
+
+                }
+                //Choose Zodiac
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    ConjureWeapon();
+                    //IsConjure = true;
+
+                }
+
+            }
+
             //Player Input Attack
-            if (Input.GetKey(KeyCode.O))
+            else if (Input.GetKey(KeyCode.O))
             {
                 //Ngesimpen waktu Press;
                 PressTime += Time.deltaTime;
@@ -155,8 +223,12 @@ public class PlayerCombat : MonoBehaviour
                 anim.Play("Attack", 0, 0);
 
                 //Update Damage Weapon pada combo
-                weapon.Damage = combo[ComboCounter].Damage;
+                weapon[ComboCounter].Damage = combo[ComboCounter].Damage;
 
+                //Update Flow Gauge
+                CurrFlowGauge += combo[ComboCounter].Flow;
+                CurrFlowGauge = Mathf.Clamp(CurrFlowGauge, 0, combatStat.MaxFlow);
+                
                 //Tambahin ComboCounter buat Index list
                 ComboCounter++;
 
@@ -244,48 +316,116 @@ public class PlayerCombat : MonoBehaviour
 
     #endregion
 
+    #region Parry
 
     //Parry
     public IEnumerator Parry()
     {
         IsParry = true;
-        anim.SetBool("attack", true);
         anim.SetTrigger("ParryTrigger");
         yield return new WaitForSeconds(ParryTime);
         IsParry = false;
-        anim.SetBool("attack", false);
+        anim.SetBool("Parry_Fail", true);
     }
 
     public void Parried()
     {
         StopCoroutine(Parry());
-        Debug.Log(ParryTakeDamageTime);
+        anim.SetTrigger("Parry_Success");
+        //Debug.Log(ParryTakeDamageTime);
         if(ParryTakeDamageTime < 0.3f)
         {
-            CurrFlowGauge += 30;
             //Perfect Parry
-            //Debug.Log("Perfect");
+            CurrFlowGauge += 30;
+
         }
         else
-        {
-            CurrFlowGauge += 15;
+        {            
             //Normal Parry
-            //Debug.Log("Normal");
+            CurrFlowGauge += 15;
+
 
         }
         CurrFlowGauge = Mathf.Clamp(CurrFlowGauge, 0, combatStat.MaxFlow);
 
     }
 
+    #endregion
+
+    #region PlayerCombat
+
+    public void TakeDamage(float damage)
+    {
+        Hp -= damage;
+        Hp = Mathf.Clamp(Hp, 0, combatStat.Maxhp);
+    }
+
+    public void TakeHeal(float heal)
+    {
+        Hp += heal;
+        Hp = Mathf.Clamp(Hp, 0, combatStat.Maxhp);
+    }
+
+    #endregion
+
+    #region Flow
+
+    public void FlowHeal()
+    {
+        if(CurrFlowGauge < 40f)
+        {
+            Debug.Log("GK cukup");
+            return;
+        }
+        TakeHeal(1f);
+        CurrFlowGauge -= 40f;
+
+    }
+
+    public void Gyakuten()
+    {
+        Debug.Log("gk tau ngapain");
+        if(CurrFlowGauge < 60f)
+        {
+            return;
+        }
+        CurrFlowGauge -= 60f;
+    }
 
 
+    #endregion
+
+    #region Conjure
+
+    public void ConjureWeapon()
+    {
+        if(CurrFlowGauge < ConjureSO_Group[ConjureIndex].BulletCost)
+        {
+            Debug.Log("Flow gk cukup");
+            return;
+        }
+        CurrFlowGauge -= ConjureSO_Group[ConjureIndex].BulletCost;
+
+        for(int i = 0; i < ConjureSO_Group[ConjureIndex].BurstAmount; i++)
+        {
+            GameObject projectile =  Instantiate(ConjureSO_Group[ConjureIndex].Projectile, ProjectilePos);
+            projectile.transform.parent = null;
+        }
+
+    }
+
+    #endregion
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<AIInfo>())
+        if (collision.gameObject.GetComponent<AIInfo>() && IsLaunching)
         {
             AIInfo enemy = collision.gameObject.GetComponent<AIInfo>();
-            enemy.TakeDamage(weapon.Damage);
+
+            //enemy AddForce
+
+
+            enemy.TakeDamage(weapon[ComboCounter].Damage);
         }
     }
 

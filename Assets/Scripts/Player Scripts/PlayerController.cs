@@ -71,7 +71,7 @@ namespace RDCT
                 HandleDirection();
             }
             
-            instantInput();
+            //instantInput();
         }
 
         private void instantInput()
@@ -99,13 +99,14 @@ namespace RDCT
             //    _animator.SetBool("isAttacking", attack);
             //}
 
-            if (_frameInput.JumpDown)
-            {
-                isJumping = true;
-                _animator.SetBool("isJumping", isJumping);
-            } else isJumping = false;
-            _animator.SetBool("isJumping", isJumping);
-
+            //if (_frameInput.JumpDown)
+            //{
+            //    Debug.Log("test");
+            //    isJumping = true;
+            //    _animator.SetBool("isJumping", isJumping);
+            //} else isJumping = false;
+            //_animator.SetBool("isJumping", isJumping);
+            //Debug.Log(_rb.velocity.y);
 
         }
 
@@ -113,8 +114,8 @@ namespace RDCT
         {
             _frameInput = new FrameInput
             {
-                JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
-                JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+                JumpDown = Input.GetButtonDown("Jump"),
+                JumpHeld = Input.GetButton("Jump"),
                 Move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
             };
 
@@ -144,7 +145,7 @@ namespace RDCT
 
         private float _frameLeftGrounded = float.MinValue;
         private bool _grounded;
-
+        private bool _walled;
         private void CheckCollisions()
         {
             Physics2D.queriesStartInColliders = false;
@@ -152,7 +153,9 @@ namespace RDCT
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            
+            bool WallHit_r = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            bool WallHit_l = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            Debug.Log(WallHit_r);
 
             //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
             //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);
@@ -172,7 +175,7 @@ namespace RDCT
                 isJumping = false;
                 _grounded = true;
                 _animator.SetBool("isLand", true);
-                _animator.SetBool("isFalling", isFalling);
+                //_animator.SetBool("isFalling", isFalling);
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
@@ -181,12 +184,22 @@ namespace RDCT
             // Left the Ground
             else if (_grounded && !groundHit)
             {
-                Debug.Log(_rb.velocity.y);
+                
                 _grounded = false;
                 _frameLeftGrounded = _time;
                 _animator.SetBool("isLand", false);
-                _animator.SetBool("isFalling", isFalling);
+                //_animator.SetBool("isFalling", isFalling);
                 GroundedChanged?.Invoke(false, 0);
+            }
+
+            //On the wall
+            if (WallHit_r || WallHit_l)
+            {
+                _walled = true;
+            }
+            else
+            {
+                _walled = false;
             }
 
             if(_rb.velocity.y > 0) isFalling = true;    else isFalling = false;
@@ -216,7 +229,7 @@ namespace RDCT
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
-            if (_grounded || CanUseCoyote)
+            if (_grounded || CanUseCoyote || _walled)
             {
                 ExecuteJump();
                 
@@ -289,11 +302,13 @@ namespace RDCT
         private void ApplyMovement()
         {
             float animController = _rb.velocity.x;
+            float Velocity_y = _rb.velocity.y;
             if(animController < 0) animController = 1;           
             
             
 
             _animator.SetFloat("Speed", animController);
+            _animator.SetFloat("Speed_Y", Velocity_y);
             _rb.velocity = _frameVelocity;
         }
     }

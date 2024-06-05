@@ -9,6 +9,6 @@ public class AttackSO : ScriptableObject
 
     public AnimatorOverrideController AnimatorOV;
     public float Damage;
-
+    public float Flow;
 
 }

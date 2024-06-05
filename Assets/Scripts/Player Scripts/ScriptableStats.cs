@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player/Player Data")]
 public class ScriptableStats : ScriptableObject
 {
+
+
     [Header("LAYERS")]
     [Tooltip("Set this to the layer your player is on")]
     public LayerMask PlayerLayer;
