@@ -27557,6 +27557,14 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8019269684395503610, guid: b3d238727434e644f907708369274a9c, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8019269684395503610, guid: b3d238727434e644f907708369274a9c, type: 3}
+      propertyPath: m_ContactCaptureLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8569602304653239163, guid: b3d238727434e644f907708369274a9c, type: 3}
       propertyPath: m_Name
       value: Thug
@@ -29457,6 +29465,10 @@ PrefabInstance:
     - target: {fileID: 3226990807568623303, guid: 20459a2a3732d384da812ff8e1e148fb, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761969402052499736, guid: 20459a2a3732d384da812ff8e1e148fb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7110139053395403639, guid: 20459a2a3732d384da812ff8e1e148fb, type: 3}
       propertyPath: m_LocalPosition.y
