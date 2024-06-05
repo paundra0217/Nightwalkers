@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AI/AI Base Attack Handler")]
 public class AIAttackHandlers : ScriptableObject
 {
-    [Tooltip("Animation of the Attack")] public Animation AttackNormal;
+    //[Tooltip("Animation of the Attack")] public Animation AttackAnimation;
     [Tooltip("Damage of the Attack")] public float AttackDamage;
     [Tooltip("Range of the Attack")] public float attackRange;
     [Tooltip("Speed of the Attack")] public float attackSpeed;
