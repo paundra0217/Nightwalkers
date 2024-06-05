@@ -293,12 +293,12 @@ public class BaseBehavior : MonoBehaviour
         {
             if (moveToRight)
             {
-                playerLastSeen = transform.position + (Vector3.left) * 5;
+                playerLastSeen = transform.position + (Vector3.left) * 15;
             }
 
             if (moveToLeft)
             {
-                playerLastSeen = transform.position + (Vector3.right) * 5;
+                playerLastSeen = transform.position + (Vector3.right) * 15;
             }
 
             rightPatrol = playerLastSeen + (Vector2.right) * 4;
@@ -310,8 +310,8 @@ public class BaseBehavior : MonoBehaviour
 
     public void houndPatrol()
     {
-        rightPatrol = playerLastSeen + (Vector2.right) * 4;
-        leftPatrol = playerLastSeen + (Vector2.left) * 4;
+        rightPatrol = playerLastSeen + (Vector2.right) * 5;
+        leftPatrol = playerLastSeen + (Vector2.left) * 5;
 
         isHoundPatrol = true;
 
@@ -319,7 +319,10 @@ public class BaseBehavior : MonoBehaviour
     }
 
     public void chase()
-    { 
+    {
+        if (isAttacking)
+            return;
+
         if (m_BasePerception.bLineOfSight)
         {
             playerLastSeen.x = playerRef.transform.position.x;
@@ -329,20 +332,20 @@ public class BaseBehavior : MonoBehaviour
             if (transform.position.x > playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(1, 1, 1);
-                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
+                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
             }
             if (transform.position.x < playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
+                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
             }
 
         } else if (!m_BasePerception.bLineOfSight)
         {
-            chases = 0;
-            CompleteAction();
-            houndPatrol();
-        }
+                chases = 0;
+                CompleteAction();
+                houndPatrol();
+        }    
     }
 
     public void attacking()
