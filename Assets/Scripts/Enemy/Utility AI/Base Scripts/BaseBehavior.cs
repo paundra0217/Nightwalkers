@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using UnityEditor;
 using Cinemachine.Utility;
+using RDCT;
 
 
 public enum EAIStates
@@ -362,6 +363,9 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("Hit Player");
 
             Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+            PlayerCombat pcon = collision.GetComponent<PlayerCombat>();
+
+            pcon.TakeDamage(m_AIInfo.getDamage());
 
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             rb.AddForce(direction * 10f, ForceMode2D.Impulse);
