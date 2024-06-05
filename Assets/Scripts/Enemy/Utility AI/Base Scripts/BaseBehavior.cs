@@ -71,7 +71,7 @@ public class BaseBehavior : MonoBehaviour
     public GameObject orientationL;
     public EdgeCollider2D attackCollider;
     //public EdgeCollider2D front;
-    private Animation anims;
+    Animator animators;
     //public GameObject orientationR;
 
     #endregion
@@ -85,7 +85,7 @@ public class BaseBehavior : MonoBehaviour
         playerRef = m_BasePerception.findPlayer();
         _currHP = m_AIInfo.getHitPointLeft();
         playerLastSeen = transform.position;
-        anims = GetComponent<Animation>();
+        animators = GetComponent<Animator>();
     }
 
     private void Update()
@@ -124,8 +124,11 @@ public class BaseBehavior : MonoBehaviour
             attacking();
             isAttacking = true;
         }
-        else isAttacking = false;
-
+        else
+        {
+            isAttacking = false;
+            animators.SetBool("Attack", false);
+        }
         if (nowAction == null)
         {
             addAction(defaultBehavior);
@@ -225,6 +228,9 @@ public class BaseBehavior : MonoBehaviour
 
         var distanceToLeft = Vector2.Distance(transform.position, leftPatrol);
         var distanceToRight = Vector2.Distance(transform.position, rightPatrol);
+
+        bool moveToLeft = false, moveToRight = false;
+
         bool hitSomething = wallCheckL.collider;//|| wallCheckR.collider;
 
         if (isHoundPatrol == false && patrolingNow == false && firstRunPatrol == true)
@@ -251,6 +257,8 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("Switch R");
             transform.localScale = new Vector3(-1, 1, 1);
             moveTowards = rightPatrol;
+            moveToRight = true;
+            moveToLeft = false;
         }
 
         if (xVal >= rightPatrol.x - 0.8)
@@ -258,6 +266,8 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("Switch L");
             transform.localScale = new Vector3(1, 1, 1);
             moveTowards = leftPatrol;
+            moveToRight = false;
+            moveToLeft = true;
         }
 
         if (hitSomething)
@@ -279,17 +289,18 @@ public class BaseBehavior : MonoBehaviour
             }
         }
 
-        if (stuckCount >= 15)
+        if (stuckCount >= 10)
         {
-            if (distanceToLeft > distanceToRight)
+            if (moveToRight)
             {
-                playerLastSeen = transform.position + (Vector3.left) * 4;
+                playerLastSeen = transform.position + (Vector3.left) * 5;
             }
 
-            if (distanceToLeft < distanceToRight)
+            if (moveToLeft)
             {
-                playerLastSeen = transform.position + (Vector3.right) * 4;
+                playerLastSeen = transform.position + (Vector3.right) * 5;
             }
+
             rightPatrol = playerLastSeen + (Vector2.right) * 4;
             leftPatrol = playerLastSeen + (Vector2.left) * 4;
 
@@ -338,9 +349,11 @@ public class BaseBehavior : MonoBehaviour
     {
         Debug.Log("Attacking");
 
+        animators.SetBool("Attack", true);
+
         if (attackCollider.CompareTag("Player"))
         {
-            Debug.Log("Player");
+            Debug.Log("Hit Player");
         }
     }
 
