@@ -46,6 +46,7 @@ public class PlayerCombat : MonoBehaviour
     public int ConjureIndex = 0;
     public bool IsConjure = false;
     //dkk
+    public bool IstakeDamage = false;
     Animator anim;
     TrailRenderer trail;
     float SpeedTemp;
@@ -77,6 +78,11 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IstakeDamage)
+        {
+            return;
+        }
+
         if (IsDashing && Hp <= 0)
         {
             return;
@@ -355,10 +361,13 @@ public class PlayerCombat : MonoBehaviour
 
     #region PlayerCombat
 
-    public void TakeDamage(float damage)
+    public IEnumerator TakeDamage(float damage)
     {
         Hp -= damage;
         Hp = Mathf.Clamp(Hp, 0, combatStat.Maxhp);
+        IstakeDamage = true;
+        yield return new WaitForSeconds(1f);
+        IstakeDamage = false;
     }
 
     public void TakeHeal(float heal)
@@ -416,6 +425,8 @@ public class PlayerCombat : MonoBehaviour
     }
 
     #endregion
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
