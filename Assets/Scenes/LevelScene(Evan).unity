@@ -19284,6 +19284,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424306093}
   m_CullTransparentMesh: 1
+--- !u!1 &442143822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442143823}
+  m_Layer: 6
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442143823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442143822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.645, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 351448694}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448880225
 GameObject:
   m_ObjectHideFlags: 0
@@ -27046,24 +27077,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 906301484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1175830758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6664290807309363937, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-  m_PrefabInstance: {fileID: 159399228787252289}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1175830766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175830758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d6ea99dc4f6b249b02258860a67675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConjureWeapon: []
 --- !u!1 &1209224505
 GameObject:
   m_ObjectHideFlags: 0
@@ -37603,6 +37616,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 151ee3fa38dfea748a9ca955b21f6099, type: 2}
     - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: ProjectilePos
+      value: 
+      objectReference: {fileID: 442143823}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: combo.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -37630,6 +37647,18 @@ PrefabInstance:
       propertyPath: weapon.Array.data[2]
       value: 
       objectReference: {fileID: 149689122}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: ConjureSOs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: ConjureSO_Group.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232901470562171459, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      propertyPath: ConjureSO_Group.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a5873a873fa494e418f6f83c09655ab5, type: 2}
     - target: {fileID: 5782639672939909035, guid: eec9c0c416138934a9106d32084f69be, type: 3}
       propertyPath: m_Size.x
       value: 0.65118325
@@ -37652,11 +37681,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6664290807309363937, guid: eec9c0c416138934a9106d32084f69be, type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 1175830766}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1869973882788846589, guid: eec9c0c416138934a9106d32084f69be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 442143823}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eec9c0c416138934a9106d32084f69be, type: 3}
 --- !u!1001 &1024413286701096232
 PrefabInstance:

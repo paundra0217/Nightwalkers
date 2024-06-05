@@ -145,7 +145,7 @@ namespace RDCT
 
         private float _frameLeftGrounded = float.MinValue;
         private bool _grounded;
-
+        private bool _walled;
         private void CheckCollisions()
         {
             Physics2D.queriesStartInColliders = false;
@@ -153,7 +153,9 @@ namespace RDCT
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
-             
+            bool WallHit_r = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            bool WallHit_l = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            Debug.Log(WallHit_r);
 
             //bool groundHit = Physics2D.Raycast(transform.position, Vector2.up, _stats.GrounderDistance);
             //bool ceilingHit = Physics2D.Raycast(transform.position, Vector2.down, _stats.GrounderDistance);
@@ -190,6 +192,16 @@ namespace RDCT
                 GroundedChanged?.Invoke(false, 0);
             }
 
+            //On the wall
+            if (WallHit_r || WallHit_l)
+            {
+                _walled = true;
+            }
+            else
+            {
+                _walled = false;
+            }
+
             if(_rb.velocity.y > 0) isFalling = true;    else isFalling = false;
 
             Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
@@ -217,7 +229,7 @@ namespace RDCT
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
-            if (_grounded || CanUseCoyote)
+            if (_grounded || CanUseCoyote || _walled)
             {
                 ExecuteJump();
                 

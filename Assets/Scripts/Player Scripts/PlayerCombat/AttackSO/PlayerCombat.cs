@@ -41,7 +41,7 @@ public class PlayerCombat : MonoBehaviour
     float CurrFlowGauge = 0;
     //float MaxFlowGauge;
     [Header("Conjure")]
-    [SerializeField] private ConjureSO[] ConjureSOs;
+    [SerializeField] private ConjureSO[] ConjureSO_Group;
     [SerializeField] private Transform ProjectilePos;
     public int ConjureIndex = 0;
     public bool IsConjure = false;
@@ -77,7 +77,7 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsDashing)
+        if (IsDashing && Hp <= 0)
         {
             return;
         }
@@ -116,7 +116,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     if(ConjureIndex == 0)
                     {
-                        ConjureIndex = 11;
+                        ConjureIndex = ConjureSO_Group.Length-1;
                     }
                     else
                     {
@@ -126,9 +126,9 @@ public class PlayerCombat : MonoBehaviour
                 }
 
                 //Select Zodiac right
-                else if (Input.GetKeyDown(KeyCode.I))
+                else if (Input.GetKeyDown(KeyCode.P))
                 {
-                    if (ConjureIndex == 11)
+                    if (ConjureIndex == ConjureSO_Group.Length - 1)
                     {
                         ConjureIndex = 0;
                     }
@@ -227,7 +227,8 @@ public class PlayerCombat : MonoBehaviour
 
                 //Update Flow Gauge
                 CurrFlowGauge += combo[ComboCounter].Flow;
-
+                CurrFlowGauge = Mathf.Clamp(CurrFlowGauge, 0, combatStat.MaxFlow);
+                
                 //Tambahin ComboCounter buat Index list
                 ComboCounter++;
 
@@ -373,6 +374,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if(CurrFlowGauge < 40f)
         {
+            Debug.Log("GK cukup");
             return;
         }
         TakeHeal(1f);
@@ -397,14 +399,17 @@ public class PlayerCombat : MonoBehaviour
 
     public void ConjureWeapon()
     {
-        if(CurrFlowGauge < ConjureSOs[ConjureIndex].BulletCost)
+        if(CurrFlowGauge < ConjureSO_Group[ConjureIndex].BulletCost)
         {
             Debug.Log("Flow gk cukup");
             return;
         }
-        for(int i = 0; i < ConjureSOs[ConjureIndex].BurstAmount; i++)
+        CurrFlowGauge -= ConjureSO_Group[ConjureIndex].BulletCost;
+
+        for(int i = 0; i < ConjureSO_Group[ConjureIndex].BurstAmount; i++)
         {
-            Instantiate(ConjureSOs[ConjureIndex].Projectile, ProjectilePos);
+            GameObject projectile =  Instantiate(ConjureSO_Group[ConjureIndex].Projectile, ProjectilePos);
+            projectile.transform.parent = null;
         }
 
     }
@@ -413,9 +418,13 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<AIInfo>())
+        if (collision.gameObject.GetComponent<AIInfo>() && IsLaunching)
         {
             AIInfo enemy = collision.gameObject.GetComponent<AIInfo>();
+
+            //enemy AddForce
+
+
             enemy.TakeDamage(weapon[ComboCounter].Damage);
         }
     }
