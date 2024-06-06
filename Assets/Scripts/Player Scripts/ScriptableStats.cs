@@ -1,8 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Player/Player Data")]
 public class ScriptableStats : ScriptableObject
 {
+
+
     [Header("LAYERS")]
     [Tooltip("Set this to the layer your player is on")]
     public LayerMask PlayerLayer;
@@ -54,4 +56,7 @@ public class ScriptableStats : ScriptableObject
 
     [Tooltip("The amount of time we buffer a jump. This allows jump input before actually hitting the ground")]
     public float JumpBuffer = .2f;
+
+
+
 }
