@@ -20,7 +20,7 @@ namespace RDCT
         public bool _counterAttack = false;
         public bool IsTakeDamage = false;
         private bool isJumping, isFalling;
-        
+
 
         private float inputAxis;
 
@@ -59,7 +59,7 @@ namespace RDCT
             _time += Time.deltaTime;
             _counterTime += Time.deltaTime;
 
-            if (playerCombat.IsDashing && playerCombat.IstakeDamage)
+            if (playerCombat.IsDashing || playerCombat.IstakeDamage || playerCombat.PlayerDeath())
             {
                 return;
             }
