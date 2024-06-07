@@ -22,8 +22,8 @@ public class BaseBehavior : MonoBehaviour
 {
     #region Module
 
-    public static BasePerception          m_BasePerception;
-    public static AIInfo                  m_AIInfo;
+    public BasePerception          m_BasePerception;
+    public AIInfo                  m_AIInfo;
 
     #endregion
 
@@ -93,6 +93,27 @@ public class BaseBehavior : MonoBehaviour
 
     private void Update()
     {
+        if (m_BasePerception.enemyToPlayerRange() < meleeRange)
+        {
+            Debug.Log("aku Nyerang");
+            if (ReadyAttack)
+            {
+                StartCoroutine(attacking());
+                isAttacking = true;
+            }
+        }
+        else
+        {
+            isAttacking = false;
+            animators.SetBool("Attack", false);
+        }
+        if (m_BasePerception.bLineOfSight == true)
+        {
+            Debug.Log("aku Lihat");
+            addAction(chaseBehavior);
+            chase();
+        }
+
         if (m_behaviors.Count == 0)
         {
             m_behaviors.Add(defaultBehavior);
@@ -101,41 +122,14 @@ public class BaseBehavior : MonoBehaviour
             m_behaviors.Clear();
         }
 
-        if (m_BasePerception.bLineOfSight == true)
-        {
-            addAction(chaseBehavior);
-        }
 
-        if(m_behaviors.Contains(defaultBehavior))
+
+        if(m_behaviors.Contains(defaultBehavior) && m_BasePerception.bLineOfSight == false)
         {
             Patrol();
-            
-        } else if (m_behaviors.Contains(chaseBehavior) && isAttacking == false)
-        {
-            chase();
+            Debug.Log("aku Patroli");
         }
-        if (m_BasePerception.enemyToPlayerRange() > rangeDistance)
-        {
-            chase();
-        }
-        if (m_BasePerception.enemyToPlayerRange() > meleeRange)
-        {
 
-        }
-        
-        if (m_BasePerception.enemyToPlayerRange() < meleeRange)
-        {
-            if (ReadyAttack)
-            {
-                StartCoroutine(attacking());
-            }
-                isAttacking = true;
-        }
-        else
-        {
-            isAttacking = false;
-            animators.SetBool("Attack", false);
-        }
         if (nowAction == null)
         {
             addAction(defaultBehavior);
@@ -146,7 +140,7 @@ public class BaseBehavior : MonoBehaviour
 
     private void ScoreProcessing()
     {
-        if (nextAction.IsUnityNull())
+        /*if (nextAction.IsUnityNull())
             return;
 
         if (GetBehaviorScoreNow() < nextAction.getScore())
@@ -170,7 +164,7 @@ public class BaseBehavior : MonoBehaviour
                     else return;
                 }
             }
-        }
+        }*/
     }
 
 
@@ -191,7 +185,7 @@ public class BaseBehavior : MonoBehaviour
     public void CompleteAction()
     {
         previousAction = nowAction;
-        m_behaviors.RemoveAt(0);
+        
         ScoreProcessing();
     }
 
@@ -327,8 +321,8 @@ public class BaseBehavior : MonoBehaviour
 
     public void chase()
     {
-        if (isAttacking)
-            return;
+        //if (isAttacking)
+        //    return;
 
         if (m_BasePerception.bLineOfSight)
         {
