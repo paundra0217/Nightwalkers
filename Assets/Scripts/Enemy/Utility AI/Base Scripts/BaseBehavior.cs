@@ -114,7 +114,12 @@ public class BaseBehavior : MonoBehaviour
             chase();
         } else if (m_BasePerception.bLineOfSight == false)
         {
-            houndPatrol();
+            if (m_behaviors.Contains(defaultBehavior) && m_BasePerception.bLineOfSight == false)
+            {
+                Patrol();
+                Debug.Log("aku Patroli");
+            } else 
+                houndPatrol();
         }
 
         if (m_behaviors.Count == 0)
@@ -123,14 +128,6 @@ public class BaseBehavior : MonoBehaviour
         } else if (m_behaviors.Count > 5)
         {
             m_behaviors.Clear();
-        }
-
-
-
-        if(m_behaviors.Contains(defaultBehavior) && m_BasePerception.bLineOfSight == false)
-        {
-            Patrol();
-            Debug.Log("aku Patroli");
         }
 
         if (nowAction == null)
