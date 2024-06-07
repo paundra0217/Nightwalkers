@@ -7,7 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Stats")]
     //Player Stats
-    private float Hp = 0;
+    public float Hp = 0;
 
     [Header("Combo")]
     //buat combo
@@ -78,12 +78,17 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IstakeDamage)
+        // if (IstakeDamage)
+        // {
+        //     return;
+        // }
+
+        if(IsDashing)
         {
             return;
         }
 
-        if (IsDashing || Hp <= 0)
+        if (Hp <= 0)
         {
             //fuck you
             Destroy(gameObject);
@@ -224,7 +229,6 @@ public class PlayerCombat : MonoBehaviour
 
                 //Buat PLayer gk gerak pas attack
                 playerController.enabled = false;
-                StatsPlayer.MaxSpeed = 0;
 
                 //Jalanin Animasi dalam List
                 anim.runtimeAnimatorController = combo[ComboCounter].AnimatorOV;
@@ -272,7 +276,7 @@ public class PlayerCombat : MonoBehaviour
 
     void EndCombo()
     {
-        //Debug.Log("Monyet");
+        // Debug.Log("Monyet");
         
         //Player dibkin jalan lagi
         playerController.enabled = true;
