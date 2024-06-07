@@ -368,6 +368,7 @@ public class BaseBehavior : MonoBehaviour
         Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
         PlayerCombat pcon = Player.GetComponent<PlayerCombat>();
         Vector2 direction = (Player.transform.position - transform.position).normalized;
+        direction.y = 0;
         if (pcon.IsParry)
         {
             pcon.Parried();
@@ -379,7 +380,7 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("gagal");
             StartCoroutine(pcon.TakeDamage(m_AIInfo.getDamage()));
             
-            rb.AddForce(direction * 3f, ForceMode2D.Impulse);
+            rb.AddForce(direction * 5f, ForceMode2D.Impulse);
         }
 
     }
