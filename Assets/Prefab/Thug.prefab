@@ -300,7 +300,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &2732618834254237137
 Animator:
@@ -368,6 +368,9 @@ MonoBehaviour:
   chaseEndPatrolPrefab: {fileID: 4880184467596664203, guid: 886ebb671106f764fbf6256e5df12eaa, type: 3}
   orientationL: {fileID: 3890948440268973445}
   attackCollider: {fileID: 8019269684395503610}
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &3135931011898771649
 MonoBehaviour:
   m_ObjectHideFlags: 0

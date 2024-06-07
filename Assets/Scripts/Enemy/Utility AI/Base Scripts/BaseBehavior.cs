@@ -259,7 +259,7 @@ public class BaseBehavior : MonoBehaviour
                 firstRunPatrol = false;
         }
 
-        if (xVal <= leftPatrol.x + 0.8)
+        if (xVal <= leftPatrol.x + 1)
         {
             Debug.Log("Switch R");
             transform.localScale = new Vector3(-1, 1, 1);
@@ -268,7 +268,7 @@ public class BaseBehavior : MonoBehaviour
             moveToLeft = false;
         }
 
-        if (xVal >= rightPatrol.x - 0.8)
+        if (xVal >= rightPatrol.x - 1)
         {
             Debug.Log("Switch L");
             transform.localScale = new Vector3(1, 1, 1);
