@@ -107,6 +107,7 @@ public class BaseBehavior : MonoBehaviour
             isAttacking = false;
             animators.SetBool("Attack", false);
         }
+
         if (m_BasePerception.bLineOfSight == true)
         {
             Debug.Log("aku Lihat");
@@ -114,12 +115,8 @@ public class BaseBehavior : MonoBehaviour
             chase();
         } else if (m_BasePerception.bLineOfSight == false)
         {
-            if (m_behaviors.Contains(defaultBehavior) && m_BasePerception.bLineOfSight == false)
-            {
-                Patrol();
-                Debug.Log("aku Patroli");
-            } else 
-                houndPatrol();
+            Patrol();
+            Debug.Log("aku Patroli");
         }
 
         if (m_behaviors.Count == 0)
