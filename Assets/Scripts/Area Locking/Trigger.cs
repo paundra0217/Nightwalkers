@@ -11,9 +11,12 @@ public class Trigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        door1.SetActive(true);
-        door2.SetActive(true);
-        door3.SetActive(true);
-        Destroy(gameObject);
+        if(coll.CompareTag("Player"))
+        {
+            door1.SetActive(true);
+            door2.SetActive(true);
+            door3.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 }
