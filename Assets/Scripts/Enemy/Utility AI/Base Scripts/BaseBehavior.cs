@@ -112,6 +112,9 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("aku Lihat");
             addAction(chaseBehavior);
             chase();
+        } else if (m_BasePerception.bLineOfSight == false)
+        {
+            houndPatrol();
         }
 
         if (m_behaviors.Count == 0)
@@ -222,7 +225,7 @@ public class BaseBehavior : MonoBehaviour
         bool patrolingNow = false;
 
         xVal = transform.position.x;
-        transform.position = Vector2.MoveTowards(transform.position, moveTowards, m_AIInfo.getMovespeed()/2.5f * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, moveTowards, m_AIInfo.getMovespeed()/3f * Time.deltaTime);
 
         RaycastHit2D wallCheckL = Physics2D.Raycast(transform.position, orientationL.transform.position, 0.5f);
         //RaycastHit2D wallCheckR = Physics2D.Raycast(transform.position, orientationR.transform.position, 0.3f);
@@ -333,12 +336,12 @@ public class BaseBehavior : MonoBehaviour
             if (transform.position.x > playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(1, 1, 1);
-                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
+                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
             if (transform.position.x < playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
+                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
 
         } else if (!m_BasePerception.bLineOfSight)
