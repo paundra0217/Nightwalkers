@@ -22,8 +22,8 @@ public class BaseBehavior : MonoBehaviour
 {
     #region Module
 
-    public static BasePerception          m_BasePerception;
-    public static AIInfo                  m_AIInfo;
+    public BasePerception          m_BasePerception;
+    public AIInfo                  m_AIInfo;
 
     #endregion
 
@@ -93,6 +93,32 @@ public class BaseBehavior : MonoBehaviour
 
     private void Update()
     {
+        if (m_BasePerception.enemyToPlayerRange() < meleeRange)
+        {
+            Debug.Log("aku Nyerang");
+            if (ReadyAttack)
+            {
+                StartCoroutine(attacking());
+                isAttacking = true;
+            }
+        }
+        else
+        {
+            isAttacking = false;
+            animators.SetBool("Attack", false);
+        }
+
+        if (m_BasePerception.bLineOfSight == true)
+        {
+            Debug.Log("aku Lihat");
+            addAction(chaseBehavior);
+            chase();
+        } else if (m_BasePerception.bLineOfSight == false)
+        {
+            Patrol();
+            Debug.Log("aku Patroli");
+        }
+
         if (m_behaviors.Count == 0)
         {
             m_behaviors.Add(defaultBehavior);
@@ -101,41 +127,6 @@ public class BaseBehavior : MonoBehaviour
             m_behaviors.Clear();
         }
 
-        if (m_BasePerception.bLineOfSight == true)
-        {
-            addAction(chaseBehavior);
-        }
-
-        if(m_behaviors.Contains(defaultBehavior))
-        {
-            Patrol();
-            
-        } else if (m_behaviors.Contains(chaseBehavior) && isAttacking == false)
-        {
-            chase();
-        }
-        if (m_BasePerception.enemyToPlayerRange() > rangeDistance)
-        {
-            chase();
-        }
-        if (m_BasePerception.enemyToPlayerRange() > meleeRange)
-        {
-
-        }
-        
-        if (m_BasePerception.enemyToPlayerRange() < meleeRange)
-        {
-            if (ReadyAttack)
-            {
-                StartCoroutine(attacking());
-            }
-                isAttacking = true;
-        }
-        else
-        {
-            isAttacking = false;
-            animators.SetBool("Attack", false);
-        }
         if (nowAction == null)
         {
             addAction(defaultBehavior);
@@ -146,7 +137,7 @@ public class BaseBehavior : MonoBehaviour
 
     private void ScoreProcessing()
     {
-        if (nextAction.IsUnityNull())
+        /*if (nextAction.IsUnityNull())
             return;
 
         if (GetBehaviorScoreNow() < nextAction.getScore())
@@ -170,7 +161,7 @@ public class BaseBehavior : MonoBehaviour
                     else return;
                 }
             }
-        }
+        }*/
     }
 
 
@@ -191,7 +182,7 @@ public class BaseBehavior : MonoBehaviour
     public void CompleteAction()
     {
         previousAction = nowAction;
-        m_behaviors.RemoveAt(0);
+        
         ScoreProcessing();
     }
 
@@ -228,7 +219,7 @@ public class BaseBehavior : MonoBehaviour
         bool patrolingNow = false;
 
         xVal = transform.position.x;
-        transform.position = Vector2.MoveTowards(transform.position, moveTowards, m_AIInfo.getMovespeed()/2.5f * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, moveTowards, m_AIInfo.getMovespeed()/3f * Time.deltaTime);
 
         RaycastHit2D wallCheckL = Physics2D.Raycast(transform.position, orientationL.transform.position, 0.5f);
         //RaycastHit2D wallCheckR = Physics2D.Raycast(transform.position, orientationR.transform.position, 0.3f);
@@ -259,7 +250,7 @@ public class BaseBehavior : MonoBehaviour
                 firstRunPatrol = false;
         }
 
-        if (xVal <= leftPatrol.x + 0.8)
+        if (xVal <= leftPatrol.x + 1)
         {
             Debug.Log("Switch R");
             transform.localScale = new Vector3(-1, 1, 1);
@@ -268,7 +259,7 @@ public class BaseBehavior : MonoBehaviour
             moveToLeft = false;
         }
 
-        if (xVal >= rightPatrol.x - 0.8)
+        if (xVal >= rightPatrol.x - 1)
         {
             Debug.Log("Switch L");
             transform.localScale = new Vector3(1, 1, 1);
@@ -327,8 +318,8 @@ public class BaseBehavior : MonoBehaviour
 
     public void chase()
     {
-        if (isAttacking)
-            return;
+        //if (isAttacking)
+        //    return;
 
         if (m_BasePerception.bLineOfSight)
         {
@@ -339,12 +330,12 @@ public class BaseBehavior : MonoBehaviour
             if (transform.position.x > playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(1, 1, 1);
-                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
+                transform.position += Vector3.left * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
             if (transform.position.x < playerRef.transform.position.x)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 4 * Time.deltaTime;
+                transform.position += Vector3.right * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
 
         } else if (!m_BasePerception.bLineOfSight)
