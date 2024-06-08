@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e4e76430c744041a6135a5dd2d95c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserTimeActive: 3
-  laserTimeStart: 3
+  laserTimeActive: 2
+  laserTimeStart: 2
 --- !u!1 &3560935223500874314
 GameObject:
   m_ObjectHideFlags: 0

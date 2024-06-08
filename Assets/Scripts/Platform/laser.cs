@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class laser : MonoBehaviour
 {
+    private PlayerCombat playerCombat;
     private BoxCollider2D laserCollider;
     private SpriteRenderer laserSprite;
     [SerializeField]private float laserTimeActive;
@@ -13,6 +14,7 @@ public class laser : MonoBehaviour
 
     void Awake()
     {
+        
         laserCollider = GetComponent<BoxCollider2D>();
         laserSprite = GetComponent<SpriteRenderer>();
         laserIsOn = false;
@@ -44,13 +46,16 @@ public class laser : MonoBehaviour
     {
         if(coll.CompareTag("Player"))
         {
-            takeDamage();
+            playerCombat = coll.GetComponent<PlayerCombat>();
+            StartCoroutine(playerCombat.TakeDamage(1));
+            Debug.Log("Hit");
+            Debug.Log(playerCombat.Hp);
         }
     }
     
-    void takeDamage()
-    {
-        Debug.Log("hit");
-    }
+    // void takeDamage()
+    // {
+    //     playerCombat.TakeDamage(1);
+    // }
 
 }

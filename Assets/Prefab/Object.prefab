@@ -137,8 +137,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7489139442537896143}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.189999, y: 0.42000008, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.69, y: 20.81, z: 1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -320,6 +320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d8de753996fbd4190f183710a7fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_BasePerception: {fileID: 9046488904837357134}
+  m_AIInfo: {fileID: 1435195690750924981}
   actionQ: 0
   patrolPoint: []
   m_behaviors: []
@@ -327,10 +329,10 @@ MonoBehaviour:
   waypointPref: {fileID: 0}
   nowAction: {fileID: 0}
   nextAction: {fileID: 0}
-  previousAction: {fileID: 11400000, guid: 4a92e9b35565f9a49bc38039a77b9f2a, type: 2}
-  defaultBehavior: {fileID: 11400000, guid: 4a92e9b35565f9a49bc38039a77b9f2a, type: 2}
-  idleBehavior: {fileID: 11400000, guid: f6674a26dd9c8fe47bc32228f50be446, type: 2}
-  chaseBehavior: {fileID: 11400000, guid: c826efc3146130f449e29de8355117c8, type: 2}
+  previousAction: {fileID: 0}
+  defaultBehavior: {fileID: 11400000, guid: f6674a26dd9c8fe47bc32228f50be446, type: 2}
+  idleBehavior: {fileID: 0}
+  chaseBehavior: {fileID: 0}
   attackBehavior: {fileID: 0}
   playerRef: {fileID: 0}
   chaseEndPatrolPrefab: {fileID: 4880184467596664203, guid: 886ebb671106f764fbf6256e5df12eaa, type: 3}
