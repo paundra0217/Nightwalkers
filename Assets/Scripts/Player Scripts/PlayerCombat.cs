@@ -29,7 +29,7 @@ public class PlayerCombat : MonoBehaviour
     //Variable buat attack/detik
     float AttackRate = 3.5f;
     float NextAttackTime;
-    
+
     [Header("Parry")]
     //Variable buat Parry
     public bool IsParry = false;
@@ -80,23 +80,19 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
-        if (IstakeDamage)
-=======
         if (IstakeDamage && TandaReset == true)
         {
             ResetTime = Time.time + 2f;
             TandaReset = false;
         }
 
-        if(ResetTime < Time.time && TandaReset == false)
+        if (ResetTime < Time.time && TandaReset == false)
         {
-             IstakeDamage = false;
+            IstakeDamage = false;
             TandaReset = true;
         }
 
         if (IsDashing)
->>>>>>> Stashed changes
         {
             return;
         }
@@ -115,7 +111,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         //Buat batesin Press Player per detik
-        if(Time.time >= NextAttackTime)
+        if (Time.time >= NextAttackTime)
         {
             //Flow input
             if (Input.GetKey(KeyCode.LeftShift))
@@ -140,9 +136,9 @@ public class PlayerCombat : MonoBehaviour
                 //Select Zodiac left
                 if (Input.GetKeyDown(KeyCode.O))
                 {
-                    if(ConjureIndex == 0)
+                    if (ConjureIndex == 0)
                     {
-                        ConjureIndex = ConjureSO_Group.Length-1;
+                        ConjureIndex = ConjureSO_Group.Length - 1;
                     }
                     else
                     {
@@ -179,23 +175,23 @@ public class PlayerCombat : MonoBehaviour
             {
                 //Ngesimpen waktu Press;
                 PressTime += Time.deltaTime;
-                
+
                 //kalo neken lebih lama dari TimeBuatCharge
-                if(PressTime >= TimeToChargeAttack)
+                if (PressTime >= TimeToChargeAttack)
                 {
                     Charging += Time.deltaTime;
                     StatsPlayer.MaxSpeed = ChargeSpeed;
                     IsCharging = true;
-                    
+
                 }
 
-                
+
             }
 
             //Buat Input Attack Teken cepet
-            else if(Input.GetKeyUp(KeyCode.O) && PressTime < TimeToChargeAttack)
+            else if (Input.GetKeyUp(KeyCode.O) && PressTime < TimeToChargeAttack)
             {
-                
+
                 Attack();
                 NextAttackTime = Time.time + 1f / AttackRate;
             }
@@ -209,13 +205,13 @@ public class PlayerCombat : MonoBehaviour
             }
 
             //Key Up
-            if(Input.GetKeyUp(KeyCode.O) && IsCharging)
+            if (Input.GetKeyUp(KeyCode.O) && IsCharging)
             {
                 StartCoroutine(Launch(PressTime, 0.1f));
                 PressTime = 0;
             }
 
-            else if(Input.GetKeyUp(KeyCode.O) && IsCharging == false)
+            else if (Input.GetKeyUp(KeyCode.O) && IsCharging == false)
             {
                 //reset PressTime
                 PressTime = 0;
@@ -233,12 +229,12 @@ public class PlayerCombat : MonoBehaviour
     #region ComboAttack
     public void Attack()
     {
-        if(Time.time - LastComboEnd > 0.5f && ComboCounter <= combo.Count)
+        if (Time.time - LastComboEnd > 0.5f && ComboCounter <= combo.Count)
         {
             //buat Bisa Jalanin combo, yang end dimatiin
             CancelInvoke("EndCombo");
 
-            if(Time.time - LastClickedTime >= 0.2f)
+            if (Time.time - LastClickedTime >= 0.2f)
             {
                 //weapon.TriggerON();
 
@@ -256,7 +252,7 @@ public class PlayerCombat : MonoBehaviour
                 //Update Flow Gauge
                 CurrFlowGauge += combo[ComboCounter].Flow;
                 CurrFlowGauge = Mathf.Clamp(CurrFlowGauge, 0, combatStat.MaxFlow);
-                
+
                 //Tambahin ComboCounter buat Index list
                 ComboCounter++;
 
@@ -265,7 +261,7 @@ public class PlayerCombat : MonoBehaviour
 
 
                 //Buat balikin gerakin terakhir balik ke awal
-                if(ComboCounter >= combo.Count)
+                if (ComboCounter >= combo.Count)
                 {
                     ComboCounter = 0;
                 }
@@ -282,21 +278,21 @@ public class PlayerCombat : MonoBehaviour
     void ExitAttack()
     {
         //buat gk lanjutin combo
-        if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             //Debug.Log("Bekantan");
             Invoke("EndCombo", 0);
-            
+
         }
     }
 
     void EndCombo()
     {
         //Debug.Log("Monyet");
-        
+
         //Player dibkin jalan lagi
         playerController.enabled = true;
- 
+
 
         //Reset Index Combo dalam list
         ComboCounter = 0;
@@ -313,15 +309,15 @@ public class PlayerCombat : MonoBehaviour
     {
         StatsPlayer.MaxSpeed = DashSpeed;
         IsDashing = true;
-        
+
         //ambil Input Arah
         Vector2 DashingDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         //biar gk lari kenceng
         dashingPower = Mathf.Clamp(dashingPower, 0f, 3f);
-       
+
         //biar cuman 3 arah
-        if(Input.GetAxisRaw("Vertical") == 1)
+        if (Input.GetAxisRaw("Vertical") == 1)
         {
             DashingDir.x = 0;
         }
@@ -330,7 +326,7 @@ public class PlayerCombat : MonoBehaviour
         IsLaunching = true;
         rb.velocity = DashingDir.normalized * dashingPower * 10f;
         //collider2D.isTrigger = true;
-        
+
         trail.emitting = true;
         yield return new WaitForSeconds(dashingTime);
 
@@ -362,14 +358,14 @@ public class PlayerCombat : MonoBehaviour
         StopCoroutine(Parry());
         anim.SetTrigger("Parry_Success");
         //Debug.Log(ParryTakeDamageTime);
-        if(ParryTakeDamageTime < 0.3f)
+        if (ParryTakeDamageTime < 0.3f)
         {
             //Perfect Parry
             CurrFlowGauge += 30;
 
         }
         else
-        {            
+        {
             //Normal Parry
             CurrFlowGauge += 15;
 
@@ -384,7 +380,7 @@ public class PlayerCombat : MonoBehaviour
     #region PlayerCombat
     public bool PlayerDeath()
     {
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
             return true;
         }
@@ -412,7 +408,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void FlowHeal()
     {
-        if(CurrFlowGauge < 40f)
+        if (CurrFlowGauge < 40f)
         {
             Debug.Log("GK cukup");
             return;
@@ -425,7 +421,7 @@ public class PlayerCombat : MonoBehaviour
     public void Gyakuten()
     {
         Debug.Log("gk tau ngapain");
-        if(CurrFlowGauge < 60f)
+        if (CurrFlowGauge < 60f)
         {
             return;
         }
@@ -439,16 +435,16 @@ public class PlayerCombat : MonoBehaviour
 
     public void ConjureWeapon()
     {
-        if(CurrFlowGauge < ConjureSO_Group[ConjureIndex].BulletCost)
+        if (CurrFlowGauge < ConjureSO_Group[ConjureIndex].BulletCost)
         {
             Debug.Log("Flow gk cukup");
             return;
         }
         CurrFlowGauge -= ConjureSO_Group[ConjureIndex].BulletCost;
 
-        for(int i = 0; i < ConjureSO_Group[ConjureIndex].BurstAmount; i++)
+        for (int i = 0; i < ConjureSO_Group[ConjureIndex].BurstAmount; i++)
         {
-            GameObject projectile =  Instantiate(ConjureSO_Group[ConjureIndex].Projectile, ProjectilePos);
+            GameObject projectile = Instantiate(ConjureSO_Group[ConjureIndex].Projectile, ProjectilePos);
             projectile.transform.parent = null;
         }
 
@@ -472,5 +468,5 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    
+
 }
