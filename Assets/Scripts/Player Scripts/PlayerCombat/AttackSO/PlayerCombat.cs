@@ -52,6 +52,8 @@ public class PlayerCombat : MonoBehaviour
     float SpeedTemp;
     float DashSpeed = 10000f;
     float ChargeSpeed;
+    float ResetTime;
+    bool TandaReset = true;
     PlayerController playerController;
     Rigidbody2D rb;
     Collider2D collider2D;
@@ -78,7 +80,19 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IstakeDamage)
+        if (IstakeDamage && TandaReset == true)
+        {
+            ResetTime = Time.time + 2f;
+            TandaReset = false;
+        }
+
+        if(ResetTime < Time.time && TandaReset == false)
+        {
+             IstakeDamage = false;
+            TandaReset = true;
+        }
+
+        if (IsDashing)
         {
             return;
         }
@@ -210,6 +224,8 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
+
+
     #region ComboAttack
     public void Attack()
     {
@@ -276,7 +292,7 @@ public class PlayerCombat : MonoBehaviour
         
         //Player dibkin jalan lagi
         playerController.enabled = true;
-        StatsPlayer.MaxSpeed = SpeedTemp;
+ 
 
         //Reset Index Combo dalam list
         ComboCounter = 0;
@@ -443,12 +459,14 @@ public class PlayerCombat : MonoBehaviour
         if (collision.gameObject.GetComponent<AIInfo>() && IsLaunching)
         {
             AIInfo enemy = collision.gameObject.GetComponent<AIInfo>();
-
+            Rigidbody2D Enemyrb = collision.gameObject.GetComponent<Rigidbody2D>();
             //enemy AddForce
-
+            Vector2 direction = (collision.transform.position - transform.position).normalized;
+            Enemyrb.AddForce(direction * 5f, ForceMode2D.Impulse);
 
             enemy.TakeDamage(weapon[ComboCounter].Damage);
         }
     }
 
+    
 }
