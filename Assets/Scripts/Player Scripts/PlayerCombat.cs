@@ -130,6 +130,7 @@ public class PlayerCombat : MonoBehaviour
 
             }
 
+            /*
             //Conjure
             else if (Input.GetKey(KeyCode.LeftAlt))
             {
@@ -169,6 +170,7 @@ public class PlayerCombat : MonoBehaviour
                 }
 
             }
+            */
 
             //Player Input Attack
             else if (Input.GetKey(KeyCode.O))
