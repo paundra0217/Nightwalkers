@@ -93,6 +93,7 @@ public class BaseBehavior : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(m_AIInfo.getHitPointLeft());
         if (m_BasePerception.enemyToPlayerRange() < meleeRange)
         {
             Debug.Log("aku Nyerang");
@@ -175,8 +176,8 @@ public class BaseBehavior : MonoBehaviour
             if (m_behaviors[1] != null)
                 nextAction = m_behaviors[1];
         }
-        nowAction.OnSelected();
-        nowAction.simulate();
+        // nowAction.OnSelected();
+        // nowAction.simulate();
     }
 
     public void CompleteAction()
@@ -253,7 +254,7 @@ public class BaseBehavior : MonoBehaviour
         if (xVal <= leftPatrol.x + 1)
         {
             Debug.Log("Switch R");
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-2, 2, 2);
             moveTowards = rightPatrol;
             moveToRight = true;
             moveToLeft = false;
@@ -262,7 +263,7 @@ public class BaseBehavior : MonoBehaviour
         if (xVal >= rightPatrol.x - 1)
         {
             Debug.Log("Switch L");
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(2, 2, 2);
             moveTowards = leftPatrol;
             moveToRight = false;
             moveToLeft = true;
@@ -276,13 +277,13 @@ public class BaseBehavior : MonoBehaviour
 
             if (distanceToLeft > distanceToRight)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(2, 2, 2);
                 moveTowards = leftPatrol;
             } 
 
             if (distanceToLeft < distanceToRight)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-2, 2, 2);
                 moveTowards = rightPatrol;
             }
         }
@@ -329,12 +330,12 @@ public class BaseBehavior : MonoBehaviour
             
             if (transform.position.x > playerRef.transform.position.x)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(2, 2, 2);
                 transform.position += Vector3.left * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
             if (transform.position.x < playerRef.transform.position.x)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-2, 2, 2);
                 transform.position += Vector3.right * m_AIInfo.getMovespeed() / 2 * Time.deltaTime;
             }
 
@@ -367,6 +368,7 @@ public class BaseBehavior : MonoBehaviour
         Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
         PlayerCombat pcon = Player.GetComponent<PlayerCombat>();
         Vector2 direction = (Player.transform.position - transform.position).normalized;
+        direction.y = 0;
         if (pcon.IsParry)
         {
             pcon.Parried();
@@ -378,7 +380,7 @@ public class BaseBehavior : MonoBehaviour
             Debug.Log("gagal");
             StartCoroutine(pcon.TakeDamage(m_AIInfo.getDamage()));
             
-            rb.AddForce(direction * 10f, ForceMode2D.Impulse);
+            rb.AddForce(direction * 5f, ForceMode2D.Impulse);
         }
 
     }

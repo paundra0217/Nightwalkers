@@ -35,7 +35,7 @@ public class AIInfo : MonoBehaviour
 
         if (HitPoint <= 0)
         {
-            Destroy(ParentObject);
+            Destroy(gameObject);
         }
 
         //var idles = new IdleAction();
