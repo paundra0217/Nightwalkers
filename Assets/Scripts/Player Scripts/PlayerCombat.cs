@@ -7,7 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Stats")]
     //Player Stats
-    private float Hp = 0;
+    public float Hp = 0;
 
     [Header("Combo")]
     //buat combo
@@ -240,7 +240,6 @@ public class PlayerCombat : MonoBehaviour
 
                 //Buat PLayer gk gerak pas attack
                 playerController.enabled = false;
-                StatsPlayer.MaxSpeed = 0;
 
                 //Jalanin Animasi dalam List
                 anim.runtimeAnimatorController = combo[ComboCounter].AnimatorOV;

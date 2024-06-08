@@ -241,9 +241,9 @@ GameObject:
   - component: {fileID: 3527878157261558638}
   - component: {fileID: 5782639672939909035}
   - component: {fileID: 941482783111907189}
-  - component: {fileID: 5232901470562171459}
   - component: {fileID: 3574154247388750998}
   - component: {fileID: 2942194430549411227}
+  - component: {fileID: 2204744728123802429}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -269,7 +269,6 @@ Transform:
   - {fileID: 4638956682186317415}
   - {fileID: 2901475507525154916}
   - {fileID: 1141524737066195374}
-  - {fileID: 5064143474939896568}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &11496691993570984
@@ -403,37 +402,6 @@ MonoBehaviour:
   _animator: {fileID: 3574154247388750998}
   _counterAttack: 0
   IsTakeDamage: 0
---- !u!114 &5232901470562171459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6664290807309363937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bea1cad9aaf9d945ae3cd0b0edc305d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  combo:
-  - {fileID: 11400000, guid: 7d66f4e00887229439586351469149be, type: 2}
-  - {fileID: 11400000, guid: 4dc68cd55c717a642bb753007e7fb327, type: 2}
-  - {fileID: 11400000, guid: ad9f55d634a39ae41b6deac6d1aa33d3, type: 2}
-  StatsPlayer: {fileID: 11400000, guid: 90b6c36c66027814191c2b0a0456f30a, type: 2}
-  IsDashing: 0
-  IsLaunching: 0
-  IsParry: 0
-  combatStat: {fileID: 11400000, guid: 151ee3fa38dfea748a9ca955b21f6099, type: 2}
-  ConjureSO_Group:
-  - {fileID: 11400000, guid: a5873a873fa494e418f6f83c09655ab5, type: 2}
-  ProjectilePos: {fileID: 5064143474939896568}
-  ConjureIndex: 0
-  IsConjure: 0
-  IstakeDamage: 0
-  weapon:
-  - {fileID: 5487082070751848105}
-  - {fileID: 2375193094724932374}
-  - {fileID: 2025485682480642240}
 --- !u!95 &3574154247388750998
 Animator:
   serializedVersion: 5
@@ -568,37 +536,37 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
---- !u!1 &8241289170121783661
-GameObject:
+--- !u!114 &2204744728123802429
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5064143474939896568}
-  m_Layer: 6
-  m_Name: ProjectileSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5064143474939896568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8241289170121783661}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.645, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1869973882788846589}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 6664290807309363937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e89df71645c97d49865373b21ff636b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 0
+  combo:
+  - {fileID: 11400000, guid: 7d66f4e00887229439586351469149be, type: 2}
+  - {fileID: 11400000, guid: 4dc68cd55c717a642bb753007e7fb327, type: 2}
+  - {fileID: 11400000, guid: ad9f55d634a39ae41b6deac6d1aa33d3, type: 2}
+  StatsPlayer: {fileID: 11400000, guid: 90b6c36c66027814191c2b0a0456f30a, type: 2}
+  IsDashing: 0
+  IsLaunching: 0
+  IsParry: 0
+  combatStat: {fileID: 11400000, guid: 151ee3fa38dfea748a9ca955b21f6099, type: 2}
+  ConjureSO_Group: []
+  ProjectilePos: {fileID: 1141524737066195374}
+  ConjureIndex: 0
+  IsConjure: 0
+  IstakeDamage: 0
+  weapon:
+  - {fileID: 5487082070751848105}
+  - {fileID: 2375193094724932374}
+  - {fileID: 2025485682480642240}
 --- !u!1 &8284575771300579420
 GameObject:
   m_ObjectHideFlags: 0
