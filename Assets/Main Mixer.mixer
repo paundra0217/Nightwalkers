@@ -73,8 +73,8 @@ AudioMixerGroupController:
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 0d36365c50464df4bb4dc4a54cf9ab62
   m_Children:
-  - {fileID: 219733947439951710}
   - {fileID: -7829173636471164658}
+  - {fileID: 219733947439951710}
   m_Volume: bfa07c918c1caf74fa03f2dbeb16a279
   m_Pitch: 4643ba2def0288d4bb655df1cb585ee9
   m_Send: 00000000000000000000000000000000
@@ -115,7 +115,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX
+  m_Name: SFX
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: b2e86572db55dee45a8ae692e236899c
   m_Children: []
