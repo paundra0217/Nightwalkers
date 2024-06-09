@@ -96,7 +96,7 @@ public class AudioController : MonoBehaviour
 
         foreach (var a in audios)
         {
-            AudioSource aSource = gameObject.GetComponent<AudioSource>();
+            AudioSource aSource = gameObject.AddComponent<AudioSource>();
 
             aSource.clip = a.AudioClip; 
             aSource.loop = a.Looping;
@@ -117,6 +117,8 @@ public class AudioController : MonoBehaviour
             }
 
             a.Source = aSource;
+
+            if (aSource.playOnAwake) aSource.Play();
         }
     }
 
