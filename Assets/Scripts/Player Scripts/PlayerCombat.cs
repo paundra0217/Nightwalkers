@@ -7,7 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Stats")]
     //Player Stats
-    private float Hp = 0;
+    public float Hp = 0;
 
     [Header("Combo")]
     //buat combo
