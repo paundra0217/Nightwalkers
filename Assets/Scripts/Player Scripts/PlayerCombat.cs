@@ -7,7 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Stats")]
     //Player Stats
-    private float Hp = 0;
+    public float Hp = 0;
 
     [Header("Combo")]
     //buat combo
@@ -130,6 +130,7 @@ public class PlayerCombat : MonoBehaviour
 
             }
 
+            /*
             //Conjure
             else if (Input.GetKey(KeyCode.LeftAlt))
             {
@@ -169,6 +170,7 @@ public class PlayerCombat : MonoBehaviour
                 }
 
             }
+            */
 
             //Player Input Attack
             else if (Input.GetKey(KeyCode.O))

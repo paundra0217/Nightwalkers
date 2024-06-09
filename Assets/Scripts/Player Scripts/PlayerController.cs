@@ -18,7 +18,6 @@ namespace RDCT
         public Animator _animator;
         bool _enableMove = true;
         public bool _counterAttack = false;
-        public bool IsTakeDamage = false;
         private bool isJumping, isFalling;
 
 
@@ -58,7 +57,7 @@ namespace RDCT
             _timeStamp = Time.deltaTime;
             _time += Time.deltaTime;
             _counterTime += Time.deltaTime;
-
+            Debug.Log("Istaking damage" + playerCombat.IstakeDamage);
             if (playerCombat.IsDashing || playerCombat.IstakeDamage || playerCombat.PlayerDeath())
             {
                 return;
@@ -67,6 +66,7 @@ namespace RDCT
             GatherInput();
             if(_enableMove)
             {
+                Debug.Log("masuk2");
                 HandleJump();
                 ApplyMovement();
                 HandleDirection();
@@ -122,6 +122,7 @@ namespace RDCT
 
             if (_stats.SnapInput)
             {
+                Debug.Log("Masuk");
                 _frameInput.Move.x = Mathf.Abs(_frameInput.Move.x) < _stats.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.x);
                 _frameInput.Move.y = Mathf.Abs(_frameInput.Move.y) < _stats.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.y);
             }
@@ -312,6 +313,8 @@ namespace RDCT
             _animator.SetFloat("Speed_Y", Velocity_y);
             _rb.velocity = _frameVelocity;
         }
+
+
     }
 
 
