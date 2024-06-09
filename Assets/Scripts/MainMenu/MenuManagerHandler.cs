@@ -44,7 +44,7 @@ public class MenuManagerHandler : MonoBehaviour
     public void PlayGame(){
         AudioController.Instance.PlayBGM("InGameBattle");
 
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(2);
     }
     public void ExitGame(){
         Application.Quit();
