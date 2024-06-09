@@ -240,7 +240,6 @@ public class PlayerCombat : MonoBehaviour
 
                 //Buat PLayer gk gerak pas attack
                 playerController.enabled = false;
-                StatsPlayer.MaxSpeed = 0;
 
                 //Jalanin Animasi dalam List
                 anim.runtimeAnimatorController = combo[ComboCounter].AnimatorOV;
