@@ -8,6 +8,7 @@ public class laser : MonoBehaviour
     private PlayerCombat playerCombat;
     private BoxCollider2D laserCollider;
     private SpriteRenderer laserSprite;
+    public SpriteRenderer laserOff;
     [SerializeField]private float laserTimeActive;
     [SerializeField]private float laserTimeStart;
     private bool laserIsOn;
@@ -26,10 +27,12 @@ public class laser : MonoBehaviour
         {
             laserCollider.enabled = true;
             laserSprite.enabled = true;
+            laserOff.enabled = false;
         }
         else if(laserIsOn == false){
             laserCollider.enabled = false;
             laserSprite.enabled = false;
+            laserOff.enabled = true;
             StartCoroutine(StartLaser());
         }
     }
