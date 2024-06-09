@@ -56,3 +56,11 @@ MonoBehaviour:
     Looping: 1
     PlayOnAwake: 1
     Source: {fileID: 0}
+  - AudioName: InGameBattle
+    AudioType: 0
+    AudioClip: {fileID: 8300000, guid: 6e383e247423c4a4faf59974b3508ecd, type: 3}
+    AudioPitch: 1
+    AudioVolume: 1
+    Looping: 1
+    PlayOnAwake: 0
+    Source: {fileID: 0}
