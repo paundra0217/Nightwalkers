@@ -28,11 +28,11 @@ This project was made using Unity 2022.3.21f1
    ├── ...
    ├── Assets                           # In this Folder, it contains all of our code, assets, scenes, etc.
       ├── ...
-      ├── Scenes                        # In this folder, there are scenes. You can open these scenes to play the game via Unity.
+      ├── Scenes                        # Contains all of the unity scenes. You can open these scenes to play the game via Unity.
          ├── MainMenu.unity             # The entry scene for this game is this scene, which is MainMenu.unity
-      ├── Scripts                       # In this Folder, there are scripts that manage various game mechanics and functionalities.
-         ├── MainMenu                   # In this folder, there are scripts that handles the main menu of the game.
-         ├── System                     # In this folder, there are scripts that handles the system or backend of the game.
+      ├── Scripts                       # Contains all the scripts that manage various game mechanics and functionalities.
+         ├── MainMenu                   # Contains scripts that handles the main menu of the game.
+         ├── System                     # Contains scripts that handles the system or backend of the game.
       ├── ....
    ├── ...
       
